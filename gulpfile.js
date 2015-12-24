@@ -5,13 +5,12 @@ var del = require('del');
 var $ = require('gulp-load-plugins')();
 var browserify = require('browserify');
 var watchify = require('watchify');
-var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
 var sourceFile = './client/scripts/app.js';
 var destFolder = './dist/scripts';
 var destFileName = 'app.js';
+var nodemon = require('gulp-nodemon')
 
-var reload = browserSync.reload;
 
 // Styles
 gulp.task('styles', ['moveCss']);
@@ -41,7 +40,7 @@ function rebundle() {
     .pipe(source(destFileName))
     .pipe(gulp.dest(destFolder))
     .on('end', function() {
-      reload();
+      console.log("Rebundled.")
     });
 }
 
@@ -49,7 +48,10 @@ function rebundle() {
 gulp.task('scripts', rebundle);
 
 gulp.task('buildScripts', function() {
-  return browserify(sourceFile)
+  return browserify({
+      entries: [sourceFile],
+      transform: ['babelify']
+    })
     .bundle()
     .pipe(source(destFileName))
     .pipe(gulp.dest('dist/scripts'));
@@ -140,18 +142,26 @@ gulp.task('extras', function() {
 });
 
 // Watch
-gulp.task('watch', ['html', 'fonts', 'bundle'], function() {
-
-  browserSync({
-    notify: false,
-    logPrefix: 'BS',
-    server: ['dist', 'client']
-  });
-
+gulp.task('watch', ['html', 'fonts', 'bundle', 'nodemon'], function() {
   gulp.watch('client/scripts/**/*.json', ['json']);
   gulp.watch('client/*.html', ['html']);
-  gulp.watch(['client/styles/**/*.css'], ['styles', 'scripts', reload]);
-  gulp.watch('client/images/**/*', reload);
+  gulp.watch(['client/styles/**/*.css'], ['styles', 'scripts']);
+  gulp.watch('client/images/**/*');
+});
+
+// Nodemon
+gulp.task('nodemon', function(cb) {
+
+  var isStarted = false;
+
+  return nodemon({
+    script: 'server/app.js'
+  }).on('start', function() {
+    if (!isStarted) {
+      cb();
+      isStarted = true;
+    }
+  });
 });
 
 // Build

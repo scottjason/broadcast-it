@@ -3,6 +3,8 @@ var ReactDOM = require("react-dom");
 var StyleSheet = require('react-style');
 var Connect = require('./components/Connect.js');
 
+console.log("hello");
+
 var App = React.createClass({
 
   render: function() {
