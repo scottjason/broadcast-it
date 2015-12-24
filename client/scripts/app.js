@@ -2,6 +2,7 @@ var React = window.React = require('react');
 var ReactDOM = require("react-dom");
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
+var createBrowserHistory = require('history/lib/createBrowserHistory');
 var StyleSheet = require('react-style');
 var Connect = require('./components/Connect.js');
 var Broadcast = require('./components/Broadcast.js');
@@ -11,7 +12,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div styles={styles.container}>
-      <Connect></Connect>
+        <Connect></Connect>
       </div>
     );
   }
@@ -28,7 +29,7 @@ var styles = StyleSheet.create({
 });
 
 ReactDOM.render((
-  <Router>
-    <Route path='/' component={App}/>
+  <Router history={createBrowserHistory()}>
+    <Route path="/" component={App}></Route>
   </Router>
-), document.getElementById("app"));
+), document.getElementById('app'));
