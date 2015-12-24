@@ -6,16 +6,22 @@ var ConnectActions = require('../actions/ConnectActions.js');
 var ConnectStore = require('../stores/ConnectStore.js');
 
 var Connect = React.createClass({
+  getInitialState: function() {
+    return { isLoaded: false, isLoading: false };
+  },
   createBroadcast: function() {
+    this.setState({ isLoading : true });    
     ConnectStore.addChangeListener(this.stateHasChanged);
     ConnectActions.createBroadcast('create', {});
   },
   joinBroadcast: function() {
+    this.setState({ isLoading : true });
     ConnectStore.addChangeListener(this.stateHasChanged);
     ConnectActions.joinBroadcast('join', {});
   },
   stateHasChanged: function() {
     var broadcast = ConnectStore.getBroadcast();
+    this.setState({ isLoaded : true });        
     console.log("state has changed", broadcast);
   },
   render: function() {

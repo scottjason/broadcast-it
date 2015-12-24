@@ -28,8 +28,8 @@ var ConnectStore = merge(EventEmitter.prototype, {
   }
 });
 
-Dispatcher.register(function(payload) {
-  var type = payload.type;
+Dispatcher.register(function(action) {
+  var type = action.type;
   if (type === 'create') {
     createBroadcast('/create');
   }
