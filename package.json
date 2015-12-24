@@ -1,11 +1,12 @@
 {
-  "name": "broadcast",
+  "name": "broadcast it",
   "version": "0.0.0",
   "author": "Scott Jason",
   "dependencies": {
     "browser-request": "^0.3.3",
     "flux": "^2.1.1",
     "merge": "^1.2.0",
+    "opentok": "^2.3.0",
     "react-style": "^0.5.5",
     "reactify": "^1.1.1"
   },

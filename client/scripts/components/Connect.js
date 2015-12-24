@@ -5,27 +5,27 @@ var StyleSheet = require('react-style');
 var ConnectActions = require('../actions/ConnectActions.js');
 var ConnectStore = require('../stores/ConnectStore.js');
 
-var Landing = React.createClass({
+var Connect = React.createClass({
   createBroadcast: function() {
-    ConnectStore.addChangeListener(this.stateHasChanged);    
-    ConnectActions.createBroadcast();
+    ConnectStore.addChangeListener(this.stateHasChanged);
+    ConnectActions.createBroadcast('create', {});
   },
   joinBroadcast: function() {
-    ConnectStore.addChangeListener(this.stateHasChanged);    
-    ConnectActions.joinBroadcast();
+    ConnectStore.addChangeListener(this.stateHasChanged);
+    ConnectActions.joinBroadcast('join', {});
   },
   stateHasChanged: function() {
-    var state = ConnectStore.getState();
-    console.log("state has changed", state);
+    var broadcast = ConnectStore.getBroadcast();
+    console.log("state has changed", broadcast);
   },
   render: function() {
     return (
       <div styles={styles.container}>
-        <p styles={styles.logo}>broadcast</p>        
+        <p styles={styles.logo}>broadcast it</p>        
         <div styles={styles.underline}></div>   
-        <div styles={styles.option} onClick={this.createBroadcast} >create</div>   
+        <div styles={styles.option} onClick={this.joinBroadcast}>join</div>                          
         <div styles={styles.divider}></div>     
-        <div styles={[styles.option, styles.firstOption]} onClick={this.joinBroadcast}>join</div>                  
+        <div styles={[styles.option, styles.secondOpt]} onClick={this.createBroadcast} >create</div>           
       </div>
     )
   },
@@ -65,7 +65,7 @@ var styles = StyleSheet.create({
     fontWeight: 300,
     cursor: 'pointer'
   },
-  firstOption: {
+  secondOpt: {
     marginRight: 20
   },
   underline: {
@@ -91,4 +91,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Landing;
+module.exports = Connect;

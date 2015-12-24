@@ -1,18 +1,21 @@
 var Dispatcher = require('../dispatcher/index.js');
 var EventEmitter = require('events').EventEmitter;
 var merge = require('merge');
+var Api = require('../api/index.js');
 
 var state = {};
 
-function generateBroadcastOpts(data) {
-  state = data.brodcast;
-  ConnectStore.emitChange();  
+function createBroadcast(url) {
+  Api.get(url, function(err, data) {
+    state.brodast = data.response;
+    ConnectStore.emitChange();      
+  });
 }
 
 var ConnectStore = merge(EventEmitter.prototype, {
 
-  getState: function() {
-    return state;
+  getBroadcast: function() {
+    return state.brodast;
   },
   emitChange: function() {
     this.emit('change');
@@ -26,8 +29,10 @@ var ConnectStore = merge(EventEmitter.prototype, {
 });
 
 Dispatcher.register(function(payload) {
-  var action = payload.action;  
-  generateBroadcastOpts(action.data);
+  var type = payload.type;
+  if (type === 'create') {
+    createBroadcast('/create');
+  }
   return true;
 });
 
