@@ -4,9 +4,12 @@
   "author": "Scott Jason",
   "dependencies": {
     "browser-request": "^0.3.3",
+    "deep-equal": "^1.0.1",
     "flux": "^2.1.1",
+    "history": "^1.17.0",
     "merge": "^1.2.0",
     "opentok": "^2.3.0",
+    "react-router": "^1.0.3",
     "react-style": "^0.5.5",
     "reactify": "^1.1.1"
   },

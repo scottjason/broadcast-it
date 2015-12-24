@@ -1,8 +1,10 @@
 var React = window.React = require('react');
 var ReactDOM = require("react-dom");
+var Router = require('react-router').Router;
+var Route = require('react-router').Route;
 var StyleSheet = require('react-style');
 var Connect = require('./components/Connect.js');
-
+var Broadcast = require('./components/Broadcast.js');
 
 var App = React.createClass({
 
@@ -25,5 +27,8 @@ var styles = StyleSheet.create({
   }
 });
 
-
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render((
+  <Router>
+    <Route path='/' component={App}/>
+  </Router>
+), document.getElementById("app"));
