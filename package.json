@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "author": "Scott Jason",
   "dependencies": {
+    "browser-request": "^0.3.3",
+    "flux": "^2.1.1",
+    "merge": "^1.2.0",
     "react-style": "^0.5.5"
   },
   "devDependencies": {

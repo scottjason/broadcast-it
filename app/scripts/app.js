@@ -1,14 +1,14 @@
 var React = window.React = require('react');
 var ReactDOM = require("react-dom");
 var StyleSheet = require('react-style');
-var Landing = require('./components/Landing.js');
+var Connect = require('./components/Connect.js');
 
 var App = React.createClass({
 
   render: function() {
     return (
       <div styles={styles.container}>
-      <Landing></Landing>
+      <Connect></Connect>
       </div>
     );
   }
