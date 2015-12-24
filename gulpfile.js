@@ -7,9 +7,9 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
-var sourceFile = './client/scripts/client.js';
+var sourceFile = './client/scripts/app.js';
 var destFolder = './dist/scripts';
-var destFileName = 'client.js';
+var destFileName = 'app.js';
 
 var reload = browserSync.reload;
 
