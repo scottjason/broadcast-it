@@ -13,10 +13,10 @@ var Landing = React.createClass({
   joinBroadcast: function() {
     ConnectStore.addChangeListener(this.stateHasChanged);    
     ConnectActions.joinBroadcast();
-  }.
+  },
   stateHasChanged: function() {
-    var connectOpts = ConnectStore.getConnectOpts();
-    console.log("state has changed");
+    var state = ConnectStore.getState();
+    console.log("state has changed", state);
   },
   render: function() {
     return (
