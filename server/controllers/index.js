@@ -1,7 +1,10 @@
 var OpenTok = require('opentok');
+var Bitly = require('Bitly');
+var config = require('../config/index.js');
+
+var bitly = new Bitly('c827aee775a53c802130f9bddf93fbdd8342161e');
 
 var env = {};
-
 
 if (process.env.NODE_ENV !== 'production') {
   env = require('../../env.js');
@@ -26,4 +29,15 @@ exports.createSession = function(req, res, next) {
 
 exports.joinBroadcast = function(req, res, next) {
   console.log("join broadcast", req.params.sessionId);
+};
+
+exports.generateShortUrl = function(req, res, next) {
+  bitly.shorten(req.body.longUrl)
+    .then(function(response) {
+      console.log("response", response)
+      res.status(200).send({url: response.data.url});
+    }, function(error) {
+      console.log(err);
+      next(err)
+    });
 };

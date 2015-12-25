@@ -34,10 +34,11 @@ body {
   height: 80%;
   left: 0;
   right: 0;
-  top: 0;
+  top: 65px;
   bottom: 0;
   margin: auto;
   background-color: transparent;
+  margin-top: 0;
 }
 
 #publisher {
@@ -49,4 +50,5 @@ body {
 
 .OT_widget-container {
   border: 1px solid white !important;
+  border-top: transparent !important;
 }

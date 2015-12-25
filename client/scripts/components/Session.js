@@ -1,9 +1,9 @@
 'use strict';
 
 var React = window.React = require('react');
-var StyleSheet = require('react-style');
 var SessionActions = require('../actions/SessionActions.js');
 var SessionStore = require('../stores/SessionStore.js');
+var Navbar = require('./Navbar.js');
 
 var Session = React.createClass({
   getInitialState: function() {
@@ -12,13 +12,6 @@ var Session = React.createClass({
     }
   },
   componentDidMount: function() {
-    FB.ui({
-      method: 'feed',         
-      link: 'https://broadcast-it.herokuapp.com/session/' + this.state.session.sessionId,
-      caption: 'An example caption',
-    }, function(response) {
-      console.log('response', response);
-    });
     var session = OT.initSession(this.state.session.key, this.state.session.sessionId);
     this.registerEvents(session);
     session.connect(this.state.session.token, function(error) {
@@ -46,7 +39,6 @@ var Session = React.createClass({
       }
     });
   },
-
   registerEvents: function(session) {
     var connectionCount = 0;
     session.on({
@@ -65,12 +57,14 @@ var Session = React.createClass({
   },
   render: function() {
     return (
-      <div id='layoutContainer'>
+      <div>
+        <Navbar/>
+        <div id='layoutContainer'>
          <div id="publisherContainer"></div>
+        </div>
       </div>
     )
   },
 });
-
 
 module.exports = Session;

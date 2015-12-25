@@ -6,6 +6,13 @@ var Api = {
       if (err) return cb(err);
       cb(null, response);
     });
+  },
+  post: function(opts, cb) {
+  	console.log("api post hit", opts);
+    request({method:'POST', url:opts.url, body:opts, json:true}, onResponse)
+    function onResponse(err, response, body) {
+      cb(err, body);
+    }
   }
 };
 

@@ -2,6 +2,7 @@
   "name": "broadcast-it",
   "version": "0.0.1",
   "dependencies": {
-    "modernizr": "^2.8.3"
+    "modernizr": "^2.8.3",
+    "velocity": "~1.2.3"
   }
 }
