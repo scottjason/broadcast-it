@@ -8,7 +8,6 @@ var Api = {
     });
   },
   post: function(opts, cb) {
-  	console.log("api post hit", opts);
     request({method:'POST', url:opts.url, body:opts, json:true}, onResponse)
     function onResponse(err, response, body) {
       cb(err, body);
