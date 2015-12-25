@@ -4,12 +4,12 @@ var merge = require('merge');
 
 var state = {};
 
-function setSession(session) {
-  console.log('app is setting session', session);
-  state.session = session;
+function setSession(data) {
+  state.session = data;
+  AppStore.emitChange();
 }
 
-var ConnectStore = merge(EventEmitter.prototype, {
+var AppStore = merge(EventEmitter.prototype, {
 
   getSession: function() {
     return state.session;
@@ -28,9 +28,9 @@ var ConnectStore = merge(EventEmitter.prototype, {
 Dispatcher.register(function(action) {
   var type = action.type;
   if (type === 'session') {
-    return setSession(action.data);
+    return setSession(action.opts);
   }
   return false;
 });
 
-module.exports = ConnectStore;
+module.exports = AppStore;

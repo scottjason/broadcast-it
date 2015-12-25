@@ -7,6 +7,9 @@ var ConnectStore = require('../stores/ConnectStore.js');
 
 
 var Connect = React.createClass({
+  getInitialState: function() {
+    return {};
+  },
   createSession: function(event) {
     event.preventDefault();
     ConnectStore.addChangeListener(this.stateHasChanged);
@@ -18,7 +21,9 @@ var Connect = React.createClass({
     ConnectActions.join('join', {});
   },
   stateHasChanged: function() {
+    console.log('state change in connect.js');    
     ConnectStore.removeChangeListener(this.stateHasChanged);
+    ConnectActions.set('session', ConnectStore.generatedSession());
   },
   render: function() {
     return (

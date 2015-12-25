@@ -22,6 +22,7 @@ var SessionStore = merge(EventEmitter.prototype, {
 });
 
 Dispatcher.register(function(action) {
+  console.log("dispatcher called in SessionStore", action);  
   var type = action.type;
   if (type === 'record') {
     return record('/record');

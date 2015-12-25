@@ -11,15 +11,17 @@ var Session = require('./components/Session.js');
 
 var App = React.createClass({
   getInitialState: function() {
-    return {};
+    return { session: AppStore.getSession() };
   },
-  componentWillMount: function() {
+  componentDidMount: function() {
+    console.log("component mounted", this.state);
     AppStore.addChangeListener(this.stateHasChanged);
   },
   stateHasChanged: function() {
-    AppStore.removeChangeListener(this.stateHasChanged);
-    var session = AppStore.getSession();
-    console.log('session', session);
+    this.setState({ session: AppStore.getSession() })
+    if (this.state.session) {
+      console.debug('state change in app.js', this.state);
+    }
   },
   render: function() {
     return (

@@ -8,13 +8,13 @@ var state = {};
 function createSession(url) {
   Api.get(url, function(err, data) {
     state.session = JSON.parse(data.response);
-    ConnectStore.emitChange();
+    ConnectStore.emitChange();    
   });
 }
 
 var ConnectStore = merge(EventEmitter.prototype, {
 
-  getSession: function() {
+  generatedSession: function() {
     return state.session;
   },
   emitChange: function() {
@@ -29,6 +29,7 @@ var ConnectStore = merge(EventEmitter.prototype, {
 });
 
 Dispatcher.register(function(action) {
+console.log("dispatcher called in ConnectStore", action);
   var type = action.type;
   if (type === 'create') {
     return createSession('/create');
