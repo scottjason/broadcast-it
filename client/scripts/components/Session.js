@@ -7,12 +7,11 @@ var SessionStore = require('../stores/SessionStore.js');
 
 var Session = React.createClass({
   getInitialState: function() {
-    return {
-      session: SessionStore.getSession()
-    }
+    return { session: SessionStore.getSession() }
   },
   componentDidMount: function() {
     var session = OT.initSession(this.state.session.key, this.state.session.sessionId);
+    this.registerEvents(session);
     session.connect(this.state.session.token, function(error) {
       if (error) {
         console.log(error.message);
@@ -26,7 +25,6 @@ var Session = React.createClass({
         };
         var layoutContainer = document.getElementById('layoutContainer');
         var layout = initLayoutContainer(layoutContainer, opts).layout;
-
         session.publish("publisherContainer");
         layout();
         var resizeTimeout;
@@ -38,7 +36,22 @@ var Session = React.createClass({
         };
       }
     });
-
+  },
+  registerEvents: function(session) {
+    var connectionCount = 0;
+    session.on({
+      connectionCreated: function(event) {
+        connectionCount++;
+        console.log(connectionCount + ' connections.');
+      },
+      connectionDestroyed: function(event) {
+        connectionCount--;
+        console.log(connectionCount + ' connections.');
+      },
+      sessionDisconnected: function sessionDisconnectHandler(event) {
+        console.log('Disconnected from the session.', event.reason);
+      }
+    });
   },
   render: function() {
     return (
