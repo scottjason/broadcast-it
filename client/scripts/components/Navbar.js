@@ -19,6 +19,7 @@ var Navbar = React.createClass({
     if (!this.state.shortUrl) {
       NavbarStore.addChangeListener(this.stateHasChanged);
       NavbarActions.generateShortUrl('shortUrl', { sessionId: this.state.session.sessionId } );
+      return '';
     }
     return this.state.shortUrl;
   },

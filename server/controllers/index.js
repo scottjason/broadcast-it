@@ -34,7 +34,6 @@ exports.joinBroadcast = function(req, res, next) {
 exports.generateShortUrl = function(req, res, next) {
   bitly.shorten(req.body.longUrl)
     .then(function(response) {
-      console.log("response", response)
       res.status(200).send({url: response.data.url});
     }, function(error) {
       console.log(err);
