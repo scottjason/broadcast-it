@@ -13,8 +13,8 @@ var Session = React.createClass({
   },
   componentDidMount: function() {
     FB.ui({
-      method: 'feed',         
-      link: 'https://broadcast-it.herokuapp.com/session/' + this.state.session.sessionId,
+      method: 'feed',
+      link: 'https://developers.facebook.com/docs/',
       caption: 'An example caption',
     }, function(response) {
       console.log('response', response);

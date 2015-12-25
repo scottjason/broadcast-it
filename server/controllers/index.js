@@ -25,5 +25,5 @@ exports.createSession = function(req, res, next) {
 };
 
 exports.joinBroadcast = function(req, res, next) {
-  console.log("join broadcast");
+  console.log("join broadcast", req.params.sessionId);
 };
