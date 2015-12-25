@@ -1,7 +1,6 @@
 'use strict';
 
 var React = window.React = require('react');
-var Router = require('react-router');
 var StyleSheet = require('react-style');
 var ConnectActions = require('../actions/ConnectActions.js');
 var ConnectStore = require('../stores/ConnectStore.js');
