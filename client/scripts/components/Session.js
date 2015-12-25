@@ -44,10 +44,12 @@ var Session = React.createClass({
     session.on({
       connectionCreated: function(event) {
         connectionCount++;
+        SessionActions.addViewer('addViewer', connectionCount);
         console.log(connectionCount + ' connections.');
       },
       connectionDestroyed: function(event) {
         connectionCount--;
+        SessionActions.removeViewer('addViewer', connectionCount);
         console.log(connectionCount + ' connections.');
       },
       sessionDisconnected: function sessionDisconnectHandler(event) {

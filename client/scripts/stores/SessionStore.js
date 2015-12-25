@@ -3,19 +3,29 @@ var EventEmitter = require('events').EventEmitter;
 var merge = require('merge');
 
 var state = {};
-
-function record(url, opts) {
-  console.log('record');
-}
+state.viewCount = 0;
 
 function setSession(session) {
   state.session = session;
+}
+
+function addViewer(count) {
+  state.viewCount += (count -1);
+  SessionStore.emitChange();
+}
+
+function removeViewer(opts) {
+  state.viewCount -= count;
+  SessionStore.emitChange();  
 }
 
 var SessionStore = merge(EventEmitter.prototype, {
 
   getSession: function() {
     return state.session;
+  },
+  getViewCount: function() {
+    return state.viewCount;
   },
   emitChange: function() {
     this.emit('change');
@@ -32,8 +42,10 @@ Dispatcher.register(function(action) {
   var type = action.type;
   if (type === 'setSession') {
     return setSession(action.opts);
-  } else if (type === 'record') {
-    return record('/record');
+  } else if (type === 'addViewer') {
+    return addViewer(action.opts);
+  } else if (type === 'removeViewer') {
+    return removeViewer(action.opts);
   }
   return false;
 });

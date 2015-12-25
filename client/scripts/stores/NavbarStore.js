@@ -15,6 +15,15 @@ function generateShortUrl(opts) {
   });
 }
 
+function shareToFacebook(opts) {
+  FB.ui({
+    method: 'feed',
+    link: 'https://broadcast-it-api.herokuapp.com/' + opts.sessionId,
+    caption: 'Join Live Stream',
+  }, function(response) {
+    console.log('Facebook Response', response);
+  });
+}
 function toggleSlider() {
   state.isToggled = !state.isToggled;
   if (state.isToggled) {
@@ -57,7 +66,9 @@ Dispatcher.register(function(action) {
   if (type === 'toggle') {
     return toggleSlider();
   } else if (type === 'shortUrl') {
-    generateShortUrl(action.opts);
+    return generateShortUrl(action.opts);
+  } else if (type === 'facebook') {
+    return shareToFacebook(action.opts);
   }
   return true;
 });
