@@ -11,8 +11,8 @@ exports.createSession = function(req, res, next) {
   opentok.createSession({
     mediaMode: 'routed'
   }, function(err, broadcast) {
-  	if (err) return next(err);
-  	res.status(200).send(broadcast);
+    if (err) return next(err);
+    res.status(200).send(broadcast);
   });
 };
 

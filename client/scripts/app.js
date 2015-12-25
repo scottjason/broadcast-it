@@ -4,11 +4,23 @@ var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 var StyleSheet = require('react-style');
+var AppStore = require('./stores/AppStore');
 var Connect = require('./components/Connect.js');
 var Session = require('./components/Session.js');
 
-var App = React.createClass({
 
+var App = React.createClass({
+  getInitialState: function() {
+    return {};
+  },
+  componentWillMount: function() {
+    AppStore.addChangeListener(this.stateHasChanged);
+  },
+  stateHasChanged: function() {
+    AppStore.removeChangeListener(this.stateHasChanged);
+    var session = AppStore.getSession();
+    console.log('session', session);
+  },
   render: function() {
     return (
       <div styles={styles.container}>
@@ -34,3 +46,5 @@ ReactDOM.render((
     <Route path="session" component={Session} />
   </Router>
 ), document.getElementById('app'));
+
+module.exports = Route;

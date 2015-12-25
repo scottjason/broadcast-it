@@ -5,10 +5,8 @@ var StyleSheet = require('react-style');
 var ConnectActions = require('../actions/ConnectActions.js');
 var ConnectStore = require('../stores/ConnectStore.js');
 
+
 var Connect = React.createClass({
-  getInitialState: function() {
-    return { isLoaded: false, isLoading: false };
-  },
   createSession: function(event) {
     event.preventDefault();
     ConnectStore.addChangeListener(this.stateHasChanged);
@@ -16,15 +14,11 @@ var Connect = React.createClass({
   },
   joinSession: function() {
     event.preventDefault();    
-    this.setState({ isLoading : true });
     ConnectStore.addChangeListener(this.stateHasChanged);
     ConnectActions.join('join', {});
   },
   stateHasChanged: function() {
     ConnectStore.removeChangeListener(this.stateHasChanged);
-    var session = ConnectStore.getSession();
-    this.setState({ isLoaded : true });        
-    console.log("state has changed", session);
   },
   render: function() {
     return (

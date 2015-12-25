@@ -2,14 +2,18 @@ var Dispatcher = require('../dispatcher/index.js');
 var EventEmitter = require('events').EventEmitter;
 var merge = require('merge');
 
-function record(url, opts) {
-  console.log('record');
-}
-
 var state = {};
 
-var SessionStore = merge(EventEmitter.prototype, {
+function setSession(session) {
+  console.log('app is setting session', session);
+  state.session = session;
+}
 
+var ConnectStore = merge(EventEmitter.prototype, {
+
+  getSession: function() {
+    return state.session;
+  },
   emitChange: function() {
     this.emit('change');
   },
@@ -23,10 +27,10 @@ var SessionStore = merge(EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
   var type = action.type;
-  if (type === 'record') {
-    return record('/record');
+  if (type === 'session') {
+    return setSession(action.data);
   }
   return false;
 });
 
-module.exports = SessionStore;
+module.exports = ConnectStore;

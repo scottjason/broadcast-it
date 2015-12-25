@@ -12,6 +12,12 @@ var ConnectActions = {
       type: type,
       opts: opts
     });
+  },
+  set: function(type, opts) {
+    dispatcher.dispatch({
+      type: type,
+      opts: opts
+    });
   }
 };
 

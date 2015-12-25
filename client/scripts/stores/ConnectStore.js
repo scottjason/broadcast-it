@@ -8,6 +8,7 @@ var state = {};
 function createSession(url) {
   Api.get(url, function(err, data) {
     state.session = JSON.parse(data.response);
+    ConnectStore.emitChange();
   });
 }
 
@@ -32,7 +33,7 @@ Dispatcher.register(function(action) {
   if (type === 'create') {
     return createSession('/create');
   }
-  return true;
+  return false;
 });
 
 module.exports = ConnectStore;
