@@ -1,12 +1,14 @@
 'use strict';
 
 var React = window.React = require('react');
+var Router = require('react-router');
 var StyleSheet = require('react-style');
 var ConnectActions = require('../actions/ConnectActions.js');
 var ConnectStore = require('../stores/ConnectStore.js');
-
+var Navigation = require('react-router').Navigation;
 
 var Connect = React.createClass({
+  mixins: [Navigation],
   getInitialState: function() {
     return {};
   },
@@ -16,14 +18,13 @@ var Connect = React.createClass({
     ConnectActions.create('create', {});
   },
   joinSession: function() {
-    event.preventDefault();    
+    event.preventDefault();
     ConnectStore.addChangeListener(this.stateHasChanged);
     ConnectActions.join('join', {});
   },
   stateHasChanged: function() {
-    console.log('state change in connect.js');    
     ConnectStore.removeChangeListener(this.stateHasChanged);
-    ConnectActions.set('session', ConnectStore.generatedSession());
+    this.props.history.pushState(null, '/session');
   },
   render: function() {
     return (
