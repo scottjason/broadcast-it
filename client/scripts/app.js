@@ -5,7 +5,7 @@ var Route = require('react-router').Route;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 var StyleSheet = require('react-style');
 var Connect = require('./components/Connect.js');
-var Broadcast = require('./components/Broadcast.js');
+var Session = require('./components/Session.js');
 
 var App = React.createClass({
 
@@ -31,5 +31,6 @@ var styles = StyleSheet.create({
 ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={App}></Route>
+    <Route path="session" component={Session} />
   </Router>
 ), document.getElementById('app'));

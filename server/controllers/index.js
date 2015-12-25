@@ -7,7 +7,7 @@ exports.renderIndex = function(req, res, next) {
   res.sendFile('./dist/index.html');
 };
 
-exports.createBroadcast = function(req, res, next) {
+exports.createSession = function(req, res, next) {
   opentok.createSession({
     mediaMode: 'routed'
   }, function(err, broadcast) {

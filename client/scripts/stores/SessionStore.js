@@ -5,17 +5,8 @@ var Api = require('../api/index.js');
 
 var state = {};
 
-function createSession(url) {
-  Api.get(url, function(err, data) {
-    state.session = JSON.parse(data.response);
-  });
-}
+var SessionStore = merge(EventEmitter.prototype, {
 
-var ConnectStore = merge(EventEmitter.prototype, {
-
-  getSession: function() {
-    return state.session;
-  },
   emitChange: function() {
     this.emit('change');
   },
@@ -28,11 +19,7 @@ var ConnectStore = merge(EventEmitter.prototype, {
 });
 
 Dispatcher.register(function(action) {
-  var type = action.type;
-  if (type === 'create') {
-    return createSession('/create');
-  }
   return true;
 });
 
-module.exports = ConnectStore;
+module.exports = SessionStore;

@@ -1,13 +1,13 @@
 var dispatcher = require('../dispatcher/index.js');
 
 var ConnectActions = {
-  createBroadcast: function(type, opts) {
+  create: function(type, opts) {
     dispatcher.dispatch({
       type: type,
       opts: opts
     });
   },
-  joinBroadcast: function(type, opts) {
+  join: function(type, opts) {
     dispatcher.dispatch({
       type: type,
       opts: opts

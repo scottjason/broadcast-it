@@ -9,29 +9,31 @@ var Connect = React.createClass({
   getInitialState: function() {
     return { isLoaded: false, isLoading: false };
   },
-  createBroadcast: function() {
-    this.setState({ isLoading : true });    
+  createSession: function(event) {
+    event.preventDefault();
     ConnectStore.addChangeListener(this.stateHasChanged);
-    ConnectActions.createBroadcast('create', {});
+    ConnectActions.create('create', {});
   },
-  joinBroadcast: function() {
+  joinSession: function() {
+    event.preventDefault();    
     this.setState({ isLoading : true });
     ConnectStore.addChangeListener(this.stateHasChanged);
-    ConnectActions.joinBroadcast('join', {});
+    ConnectActions.join('join', {});
   },
   stateHasChanged: function() {
-    var broadcast = ConnectStore.getBroadcast();
+    ConnectStore.removeChangeListener(this.stateHasChanged);
+    var session = ConnectStore.getSession();
     this.setState({ isLoaded : true });        
-    console.log("state has changed", broadcast);
+    console.log("state has changed", session);
   },
   render: function() {
     return (
       <div styles={styles.container}>
         <p styles={styles.logo}>broadcast it</p>        
         <div styles={styles.underline}></div>   
-        <div styles={styles.option} onClick={this.joinBroadcast}>join</div>                          
+        <div styles={styles.option} onClick={this.createSession} >create</div>                   
         <div styles={styles.divider}></div>     
-        <div styles={[styles.option, styles.secondOpt]} onClick={this.createBroadcast} >create</div>           
+        <div styles={[styles.option, styles.secondOpt]} onClick={this.joinSession}>join</div>                                  
       </div>
     )
   },
