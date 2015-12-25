@@ -1,12 +1,13 @@
 var OpenTok = require('opentok');
 
-var env;
+var env = {};
+
 
 if (process.env.NODE_ENV !== 'production') {
   env = require('../../env.js');
 }
 
-var opentok = new OpenTok(process.env.opentokKey || env.openTok.key, env.openTok.secret ||  process.env.opentokSecret);
+var opentok = new OpenTok(process.env.opentokKey || env.openTok.key, process.env.opentokSecret || env.openTok.secret);
 
 exports.renderIndex = function(req, res, next) {
   res.sendFile('./dist/index.html');

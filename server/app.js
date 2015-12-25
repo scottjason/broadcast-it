@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, '../dist')));
 
 app.use('/', routes);
 
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
   console.log("Express Server Started");
 });
 
