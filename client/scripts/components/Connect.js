@@ -4,6 +4,7 @@ var React = window.React = require('react');
 var StyleSheet = require('react-style');
 var ConnectActions = require('../actions/ConnectActions.js');
 var ConnectStore = require('../stores/ConnectStore.js');
+var SessionStore = require('../stores/SessionStore.js');
 var Navigation = require('react-router').Navigation;
 
 var Connect = React.createClass({
@@ -22,8 +23,11 @@ var Connect = React.createClass({
     ConnectActions.join('join', {});
   },
   stateHasChanged: function() {
-    ConnectStore.removeChangeListener(this.stateHasChanged);
-    this.props.history.pushState(null, '/session');
+    ConnectStore.removeChangeListener(this.stateHasChanged);    
+    var session = ConnectStore.getSessionData();    
+    var path = '/session/' + session.sessionId;    
+    ConnectActions.set('setSession', session);
+    this.props.history.pushState(null, path);
   },
   render: function() {
     return (

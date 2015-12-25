@@ -6,6 +6,13 @@ var SessionActions = require('../actions/SessionActions.js');
 var SessionStore = require('../stores/SessionStore.js');
 
 var Session = React.createClass({
+  getInitialState: function() {
+    return { session: SessionStore.getSession() }
+  },
+  componentDidMount: function() {
+    var session = this.state.session;
+    console.log("session componentDidMount", session);
+  },
   render: function() {
     return (
       <div styles={styles.container}>
