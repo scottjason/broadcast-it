@@ -10,9 +10,11 @@ exports.renderIndex = function(req, res, next) {
 exports.createSession = function(req, res, next) {
   opentok.createSession({
     mediaMode: 'routed'
-  }, function(err, broadcast) {
+  }, function(err, session) {
     if (err) return next(err);
-    res.status(200).send(broadcast);
+    session.token = opentok.generateToken(session.sessionId);
+    session.key = session.ot.apiKey;
+    res.status(200).send(session);
   });
 };
 

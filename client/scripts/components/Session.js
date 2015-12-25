@@ -10,8 +10,25 @@ var Session = React.createClass({
     return { session: SessionStore.getSession() }
   },
   componentDidMount: function() {
-    var session = this.state.session;
-    console.log("session componentDidMount", session);
+      var session = OT.initSession(this.state.session.key, this.state.session.sessionId);
+     session.connect(this.state.session.token, function(error) {
+      if (error) {
+        console.log(error.message);
+      } else {
+        var pubElem = document.createElement('div');
+         var publisher = OT.initPublisher(pubElem, {
+          resolution: '1280x720'
+        }, function(err) {
+          if (err) console.error(err);
+          session.publish(publisher);
+          // layoutContainer.appendChild(pubElem);
+          // layout();
+          // localStorageService.set('publisher', publisher);
+          // ctrl.pubCallback();
+        });
+        // console.log("session connected, publish the stream");
+      }
+    });
   },
   render: function() {
     return (
