@@ -1,5 +1,5 @@
 var OpenTok = require('opentok');
-var Bitly = require('Bitly');
+var Bitly = require('bitly');
 var config = require('../config/index.js');
 
 var bitly = new Bitly('c827aee775a53c802130f9bddf93fbdd8342161e');
