@@ -7,9 +7,18 @@ var SessionStore = require('../stores/SessionStore.js');
 
 var Session = React.createClass({
   getInitialState: function() {
-    return { session: SessionStore.getSession() }
+    return {
+      session: SessionStore.getSession()
+    }
   },
   componentDidMount: function() {
+    FB.ui({
+      method: 'feed',
+      link: 'https://developers.facebook.com/docs/',
+      caption: 'An example caption',
+    }, function(response) {
+      console.log('response', response);
+    });
     var session = OT.initSession(this.state.session.key, this.state.session.sessionId);
     this.registerEvents(session);
     session.connect(this.state.session.token, function(error) {
@@ -37,6 +46,7 @@ var Session = React.createClass({
       }
     });
   },
+
   registerEvents: function(session) {
     var connectionCount = 0;
     session.on({

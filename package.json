@@ -2,6 +2,9 @@
   "name": "broadcast-it",
   "version": "0.0.0",
   "author": "Scott Jason",
+  "scripts": {
+    "start": "node server/app.js"
+  },
   "dependencies": {
     "browser-request": "^0.3.3",
     "deep-equal": "^1.0.1",
@@ -49,9 +52,6 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "scripts": {
-    "test": "jest"
-  },
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
     "unmockedModulePathPatterns": [
@@ -65,8 +65,7 @@
         "reactify"
       ],
       [
-        "babelify",
-        {
+        "babelify", {
           "ignore": [
             "bower_components"
           ]

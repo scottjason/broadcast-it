@@ -1,7 +1,12 @@
 var OpenTok = require('opentok');
-var env = require('../../env.js');
 
-var opentok = new OpenTok(env.openTok.key, env.openTok.secret);
+var env;
+
+if (process.env.NODE_ENV !== 'production') {
+  env = require('../../env.js');
+}
+
+var opentok = new OpenTok(process.env.opentokKey || env.openTok.key, env.openTok.secret ||  process.env.opentokSecret);
 
 exports.renderIndex = function(req, res, next) {
   res.sendFile('./dist/index.html');
@@ -14,7 +19,6 @@ exports.createSession = function(req, res, next) {
     if (err) return next(err);
     session.token = opentok.generateToken(session.sessionId);
     session.key = session.ot.apiKey;
-    session.isPublisher = true;
     res.status(200).send(session);
   });
 };
