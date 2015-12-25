@@ -14,6 +14,7 @@ exports.createSession = function(req, res, next) {
     if (err) return next(err);
     session.token = opentok.generateToken(session.sessionId);
     session.key = session.ot.apiKey;
+    session.isPublisher = true;
     res.status(200).send(session);
   });
 };
