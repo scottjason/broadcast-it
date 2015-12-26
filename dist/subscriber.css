@@ -119,7 +119,8 @@ body {
   margin-left: 6px;
 }
 
-.exit {
+#exit {
+  display: none;
   position: fixed;
   top: 75px;
   left: 0px;
@@ -131,11 +132,7 @@ body {
   z-index: 3;
 }
 
-#exit {
-  display: none;
-}
-
-#exit-container: {
+#exit-container {
   position: absolute;
   height: 200px;
   width: 300px;
@@ -148,7 +145,7 @@ body {
   text-align: center;
 }
 
-.exitCopy: {
+.exitCopy {
   position: relative;
   font-family: 'Roboto-Regular';
   color: white;
@@ -156,7 +153,7 @@ body {
   margin-bottom: '10px'
 }
 
-.exitBtn: {
+.exitBtn {
   position: relative;
   font-family: 'Roboto-Regular';
   margin: auto;
