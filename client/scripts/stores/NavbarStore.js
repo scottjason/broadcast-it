@@ -17,7 +17,7 @@ module.exports = Reflux.createStore({
   createShortUrl: function(sessionId) {
     var opts = {};
     opts.url = '/shortUrl';
-    opts.longUrl = 'https://broadcast-it.herokuapp.com/' + sessionId;
+    opts.longUrl = 'https://broadcast-it.herokuapp.com/subscriber/' + sessionId;
     Api.post(opts, function(err, results) {
       this.trigger('onShortUrlCreated', results.url);
     }.bind(this));
@@ -57,7 +57,7 @@ module.exports = Reflux.createStore({
   shareToFacebook: function(sessionId) {
     FB.ui({
       method: 'feed',
-      link: 'https://broadcast-it.herokuapp.com/' + sessionId,
+      link: 'https://broadcast-it.herokuapp.com/subscriber/' + sessionId,
       caption: 'Join Live Stream',
     }, function(response) {
       if (window.deug) console.log('Facebook Response', response);

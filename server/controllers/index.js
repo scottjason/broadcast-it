@@ -43,6 +43,10 @@ exports.createSession = function(req, res, next) {
   });
 };
 
+exports.redirect = function(req, res, next) {
+  res.redirect('/');
+};
+
 exports.joinBroadcast = function(req, res, next) {
   
   var opts = {};
@@ -50,19 +54,6 @@ exports.joinBroadcast = function(req, res, next) {
   // first see if the publisher hit refresh
   client.get(req.params.sessionId, function(err, session) {
     session = JSON.parse(session);
-    console.log("got back session on client.get", session)
-    if (!session || err) {
-      console.log("No Broadcast Exists, Notify");
-      return;
-    }
-    if (session.role === 'moderator') {
-      opts.role = "moderator";
-      console.log("publisher hit refresh");
-    } else {
-      // otherwise its a new viewer       
-      opts.role = "subscriber";
-      console.log("new subscriber");
-    }
 
     // check expiration
     var isExpired = (new Date().getTime() >= session.expiresAt);

@@ -21,7 +21,7 @@ var Connect = React.createClass({
   },
   onSessionCreated: function(session) {
     this.stopListeningToAll();
-    var path = '/' + session.sessionId;    
+    var path = '/publisher/' + session.sessionId;    
     this.props.history.pushState(null, path);
   },
   render: function() {
