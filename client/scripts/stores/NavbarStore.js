@@ -57,7 +57,7 @@ module.exports = Reflux.createStore({
   shareToFacebook: function(sessionId) {
     FB.ui({
       method: 'feed',
-      link: 'https://broadcast-it-api.herokuapp.com/' + sessionId,
+      link: 'https://broadcast-it.herokuapp.com/' + sessionId,
       caption: 'Join Live Stream',
     }, function(response) {
       if (window.deug) console.log('Facebook Response', response);
