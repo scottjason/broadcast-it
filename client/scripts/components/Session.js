@@ -50,15 +50,14 @@ var Session = React.createClass({
     });
   },  
   registerEvents: function(session) {
-    var connectionCount = 0;
     session.on({
       connectionCreated: function(event) {
-        connectionCount++;
-        console.log('connection created: ', connectionCount + ' connections.');
+        actions.addViewer();
+        console.log('connection created');        
       },
       connectionDestroyed: function(event) {
-        connectionCount--;
-        console.log('connection created: ', connectionCount + ' connections.');
+        actions.removeViewer();        
+        console.log('connection destroyed');                
       },
       sessionDisconnected: function sessionDisconnectHandler(event) {
         console.log('Disconnected from the session: ', event.reason);

@@ -14,22 +14,22 @@ var Navbar = React.createClass({
   getInitialState: function() {
     return { session: {}, viewCount: 0, shortUrl: '', startedAt: null, expiresAt: null, timeLeft: null };
   },
+  onStateChange: function(func, data) {
+    this[func](data);
+  },  
   componentDidMount: function(){
     this.listenTo(ConnectStore, this.onSessionReceived);    
     this.listenTo(NavbarStore, this.onStateChange);    
     this.setState({ startedAt: new Date().getTime() });
     this.setState({ expiresAt: new Date().getTime() + 120000 });
-    setTimeout(function() {
-      this.timer = setInterval(this.tick, 50);
-    }, 1000);
+    this.timer = setInterval(this.tick, 50);
   },
   componentWillUnmount: function(){
     clearInterval(this.timer);
   },
   onSessionReceived: function(session) {
-    console.log("session received in navbar component", session);
     this.setState({ session: session });
-    actions.createShortUrl(session);
+    actions.createShortUrl(session.sessionId);
   },
   tick: function(){
     var timeLeft = this.state.expiresAt - new Date().getTime();
@@ -37,35 +37,31 @@ var Navbar = React.createClass({
     var seconds = ((timeLeft % 60000) / 1000).toFixed(0);
     this.setState({timeLeft: minutes + ':' + seconds });
   },
-  onStateChange: function(func, data) {
-    console.log("state has changed in navbar component");  
-    this[func](data);
-    // this.setState({ viewCount: SessionStore.getViewCount() });
-  },
   onShortUrlCreated: function(shortUrl) {
-    console.log("shortUrl created in navbar component")
     this.setState({ shortUrl: shortUrl });
   },
+  onViewCountChanged: function(viewCount) {
+    this.setState({ viewCount: viewCount });
+  },  
   shareWithUrl: function(event) {
     event.preventDefault();    
     actions.toggleUrl();
   },
   shareToFacebook: function(event) {
     event.preventDefault();    
-    // NavbarActions.share('facebook', { sessionId: this.state.session.sessionId } );    
+    actions.shareToFacebook(this.state.session.sessionId);
   },
   endBroadcast: function(event) {
     event.preventDefault();
-    // SessionActions.sessionEnded('sessionEnded', {});
+    console.log('end broadcast');
   },
   render: function() {
-
     return (
       <div styles={styles.navbar}>
-          <div styles={styles.cross} id='cross' onClick={this.shareWithUrl}>X</div>
-          <div styles={styles.slider} id='slider'>
-            <p styles={styles.url} id='shortUrl'>{this.state.shortUrl}</p>
-          </div>
+        <div styles={styles.cross} id='cross' onClick={this.shareWithUrl}>X</div>
+        <div styles={styles.slider} id='slider'>
+          <p styles={styles.url} id='shortUrl'>{this.state.shortUrl}</p>
+        </div>
         <p styles={styles.logo}>broadcast me</p>
         <p styles={styles.live}>LIVE STREAM</p>
         <div styles={styles.divider}></div>

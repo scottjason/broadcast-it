@@ -4,7 +4,10 @@ var actions = Reflux.createActions([
   'createSession',
   'getSession',
   'createShortUrl',
-  'toggleUrl'
+  'toggleUrl',
+  'shareToFacebook',
+  'addViewer',
+  'removeViewer'
 ]);
 
 module.exports = actions;

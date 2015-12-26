@@ -3,10 +3,15 @@ var Api = require('../api/index.js');
 var actions = require('../actions');
 
 module.exports = Reflux.createStore({
-  state: {},
+  state: {
+    viewCount: 0
+  },
   init: function() {
     this.listenTo(actions.createShortUrl, this.createShortUrl);
     this.listenTo(actions.toggleUrl, this.toggleUrl);
+    this.listenTo(actions.shareToFacebook, this.shareToFacebook);
+    this.listenTo(actions.addViewer, this.addViewer);
+    this.listenTo(actions.removeViewer, this.removeViewer);
   },
   createShortUrl: function(sessionId) {
     var opts = {};
@@ -44,5 +49,13 @@ module.exports = Reflux.createStore({
     }, function(response) {
       console.log('Facebook Response', response);
     });
+  },
+  addViewer: function() {
+    this.state.viewCount++
+    this.trigger('onViewCountChanged', this.state.viewCount);
+  },
+  removeViewer: function() {
+    this.state.viewCount--    
+    this.trigger('onViewCountChanged', this.state.viewCount);    
   }
 });
