@@ -50,7 +50,6 @@ exports.joinBroadcast = function(req, res, next) {
     }
     var opts = {};
     opts.role = 'subscriber';
-    res.locals.isSubscriber = true;
     res.locals.token = opentok.generateToken(req.params.sessionId, opts);
     res.locals.key = process.env.opentokKey || config.opentok.key;
     res.locals.sessionId = req.params.sessionId;
