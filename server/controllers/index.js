@@ -1,6 +1,15 @@
 var OpenTok = require('opentok');
 var Bitly = require('bitly');
 var config = require('../config/index.js');
+var redis = require('redis');
+var client = redis.createClient(config.redisUrl, {
+  no_ready_check: true
+});
+
+client.set('foo', 'bar');
+client.get('foo', function(err, reply) {
+  console.log(reply.toString()); // Will print `bar`
+});
 
 var bitly = new Bitly(process.env.BITLY_KEY || config.bitly);
 
@@ -21,24 +30,54 @@ exports.createSession = function(req, res, next) {
     mediaMode: 'routed'
   }, function(err, session) {
     if (err) return next(err);
+    var expiresAt = new Date().getTime() + 180000 // three minutes
     var opts = {};
     opts.role = 'moderator';
     session.token = opentok.generateToken(session.sessionId, opts);
     session.key = session.ot.apiKey;
+    session.role = opts.role;
+    session.expiresAt = expiresAt;
+    var str = JSON.stringify(session);
+    client.set(session.sessionId, str);
     res.status(200).send(session);
   });
 };
 
 exports.joinBroadcast = function(req, res, next) {
-  var tokenOpts = {};
-  tokenOpts.role = "subscriber";
-  var token = opentok.generateToken(req.params.sessionId, tokenOpts);
-  res.locals.token = token;
-  res.locals.fbAppId = '187072508310833';
-  res.locals.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
-  res.locals.key = process.env.opentokKey || config.opentok.key;
-  res.locals.sessionId = req.params.sessionId;
-  res.render('stream');
+  
+  var opts = {};
+
+  // first see if the publisher hit refresh
+  client.get(req.params.sessionId, function(err, session) {
+    console.log("got back session on client.get", session)
+    if (!session || err) {
+      console.log("No Broadcast Exists, Notify");
+      return;
+    }
+    if (session.role === 'moderator') {
+      opts.role = "moderator";
+      console.log("publisher hit refresh");
+    } else {
+      // otherwise its a new viewer       
+      opts.role = "subscriber";
+      console.log("new subscriber");
+    }
+
+    // check expiration
+    var isExpired = (new Date().getTime() >= session.expiresAt);
+    if (isExpired) {
+      console.log("Expired Broadcast .. Remove and Notify");
+      return;
+    }
+    // render
+    res.locals.token = opentok.generateToken(req.params.sessionId, opts);
+    res.locals.fbAppId = '187072508310833';
+    res.locals.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
+    res.locals.key = process.env.opentokKey || config.opentok.key;
+    res.locals.sessionId = req.params.sessionId;
+    res.render('stream');
+
+  });
 };
 
 exports.generateShortUrl = function(req, res, next) {
