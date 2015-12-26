@@ -17,24 +17,7 @@
 
 <body>
 
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId: '187072508310833',
-      xfbml: true,
-      version: 'v2.5'
-    });
-  };
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-  
-  
+
   <script>
     var isSubscriber = <%- JSON.stringify(isSubscriber) %>;
     var sessionId = <%- JSON.stringify(sessionId) %>;
@@ -43,14 +26,16 @@
     var expiresAt = <%- JSON.stringify(expiresAt) %>;
   </script>
   
-  <div id="app"></div>
+  <div id="layoutContainer">
+    <div id='stream'></div>
+  </div>
     
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/velocity/velocity.min.js"></script>
   <script src="/bower_components/velocity/velocity.ui.min.js"></script>    
   <script src='//static.opentok.com/v2/js/opentok.min.js'></script>
   <script src='/lib/scripts/opentok-layout.min.js'></script>
-  <script src="/scripts/app.js"></script>  
+  <script src="/scripts/subscriber.js"></script>  
 
 </body>
 
