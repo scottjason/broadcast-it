@@ -30,7 +30,15 @@ exports.createSession = function(req, res, next) {
 };
 
 exports.joinBroadcast = function(req, res, next) {
-  console.log("join broadcast", req.params.sessionId);
+  var tokenOpts = {};
+  tokenOpts.role = "subscriber";
+  var token = opentok.generateToken(req.params.sessionId, tokenOpts);
+  res.locals.token = token;
+  res.locals.fbAppId = '187072508310833';
+  res.locals.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
+  res.locals.key = '45238782';
+  res.locals.sessionId = req.params.sessionId;
+  res.render('stream');
 };
 
 exports.generateShortUrl = function(req, res, next) {

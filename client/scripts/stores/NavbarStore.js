@@ -17,7 +17,7 @@ module.exports = Reflux.createStore({
   createShortUrl: function(sessionId) {
     var opts = {};
     opts.url = '/shortUrl';
-    opts.longUrl = 'https://broadcast-it-api.herokuapp.com/' + sessionId;
+    opts.longUrl = 'https://broadcast-it.herokuapp.com/' + sessionId;
     Api.post(opts, function(err, results) {
       this.trigger('onShortUrlCreated', results.url);
     }.bind(this));
