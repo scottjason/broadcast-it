@@ -33,4 +33,9 @@ session.on('streamCreated', function(event) {
 session.on('streamDestroyed', function(event) {
   document.getElementById('dataContainer').style.display = 'none';
   document.getElementById('exit').style.display = 'block';
+  document.getElementById('exitBtn').addEventListener('click', handleExit, false);
+
+  function handleExit() {
+    window.location.href = 'https://broadcast-it.herokuapp.com';
+  }
 });
