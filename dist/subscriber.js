@@ -15,7 +15,7 @@ var session = OT.initSession(key, sessionId);
 session.connect(token, function(error) {
   if (error) {
     console.log('Error connecting: ', error.code, error.message);
-  } 
+  }
 });
 
 session.on('streamCreated', function(event) {
@@ -28,8 +28,9 @@ session.on('streamCreated', function(event) {
       layout();
     }, 20);
   };
+});
 
-  session.on('streamDestroyed', function(event) {
-  	document.getElementById('dataContainer').style.display = 'none';
-  	document.getElementById('exit').style.display = 'block';
+session.on('streamDestroyed', function(event) {
+  document.getElementById('dataContainer').style.display = 'none';
+  document.getElementById('exit').style.display = 'block';
 });
