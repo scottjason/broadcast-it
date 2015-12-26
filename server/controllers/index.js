@@ -2,7 +2,7 @@ var OpenTok = require('opentok');
 var Bitly = require('bitly');
 var config = require('../config/index.js');
 
-var bitly = new Bitly('c827aee775a53c802130f9bddf93fbdd8342161e');
+var bitly = new Bitly(process.env.BITLY_KEY || config.bitly);
 
 var env = {};
 

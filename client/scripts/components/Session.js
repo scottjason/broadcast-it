@@ -4,9 +4,8 @@ var React = window.React = require('react');
 var Reflux = require('reflux');
 var Navigation = require('react-router').Navigation;
 var actions = require('../actions/');
-var SessionStore = require('../stores/SessionStore.js');
-var ConnectStore = require('../stores/ConnectStore.js');
 var Navbar = require('./Navbar.js');
+var ConnectStore = require('../stores/ConnectStore.js');
 
 var Session = React.createClass({
   mixins: [Navigation, Reflux.ListenerMixin],  
@@ -17,7 +16,6 @@ var Session = React.createClass({
     this.listenTo(ConnectStore, this.onSessionReceived);
   },
   onSessionReceived: function(session) {
-    console.log("session received in session", session);
     this.setState({ session: session });
     this.startBroadcast();
   },
@@ -37,7 +35,7 @@ var Session = React.createClass({
         };
         var layoutContainer = document.getElementById('layoutContainer');
         var layout = initLayoutContainer(layoutContainer, opts).layout;
-        session.publish("publisherContainer");
+        session.publish("pubContainer");
         layout();
         var resizeTimeout;
         window.onresize = function() {
@@ -69,7 +67,7 @@ var Session = React.createClass({
       <div>
         <Navbar/>
         <div id='layoutContainer'>
-         <div id="publisherContainer"></div>
+         <div id="pubContainer"></div>
         </div>
       </div>
     )

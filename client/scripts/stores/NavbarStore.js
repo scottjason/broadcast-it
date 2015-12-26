@@ -4,7 +4,7 @@ var actions = require('../actions');
 
 module.exports = Reflux.createStore({
   state: {
-    viewCount: 0
+    viewCount: -1
   },
   init: function() {
     this.listenTo(actions.createShortUrl, this.createShortUrl);
