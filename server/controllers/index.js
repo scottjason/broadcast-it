@@ -36,7 +36,7 @@ exports.joinBroadcast = function(req, res, next) {
   res.locals.token = token;
   res.locals.fbAppId = '187072508310833';
   res.locals.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
-  res.locals.key = '45238782';
+  res.locals.key = process.env.opentokKey || config.opentok.key;
   res.locals.sessionId = req.params.sessionId;
   res.render('stream');
 };
