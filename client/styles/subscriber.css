@@ -129,6 +129,9 @@ body {
   background-color: black;
   color: white;
   z-index: 3;
+}
+
+#exit {
   display: none;
 }
 
