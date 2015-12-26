@@ -135,7 +135,7 @@ body {
   display: none;
 }
 
-#constainer: {
+#exit-container: {
   position: absolute;
   height: 200px;
   width: 300px;
