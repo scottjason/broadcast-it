@@ -14,13 +14,16 @@ var Navbar = React.createClass({
     return { session: {}, viewCount: 0, shortUrl: '', startedAt: null, expiresAt: null, timeLeft: null, isExitMode: false };
   },
   onStateChange: function(func, data) {
-    this[func](data);
+    var cb = this[func];
+    if (typeof cb === 'function') {
+        cb(data);
+    }
   },  
   componentDidMount: function(){
     this.listenTo(ConnectStore, this.onSessionReceived);    
     this.listenTo(NavbarStore, this.onStateChange);    
     this.setState({ startedAt: new Date().getTime() });
-    this.setState({ expiresAt: new Date().getTime() + 120000 });
+    this.setState({ expiresAt: new Date().getTime() + 10000 });
     this.timer = setInterval(this.tick, 50);
   },
   componentWillUnmount: function(){
@@ -33,7 +36,14 @@ var Navbar = React.createClass({
   tick: function(){
     var timeLeft = this.state.expiresAt - new Date().getTime();
     var minutes = Math.floor(timeLeft / 60000);
-    var seconds = ((timeLeft % 60000) / 1000).toFixed(0);
+    var seconds = ((timeLeft % 60000) / 1000).toFixed();
+    if (seconds.length == 1) seconds = '0' + seconds;
+    if (minutes == 0 && seconds == 0) {
+      this.setState({timeLeft: minutes + ':' + seconds });      
+      clearInterval(this.timer)
+      actions.endBroadcast()
+      return;
+    }
     this.setState({timeLeft: minutes + ':' + seconds });
   },
   onShortUrlCreated: function(shortUrl) {
@@ -55,6 +65,9 @@ var Navbar = React.createClass({
     this.setState({ isExitMode: true });
     actions.endBroadcast();
   },
+  onBroadcastEnded: function() {
+    this.setState({ isExitMode: true });
+  },
   render: function() {
     return (
       <div styles={styles.navbar}>
@@ -62,7 +75,7 @@ var Navbar = React.createClass({
         <div styles={styles.slider} id='slider'>
           <p styles={styles.url} id='shortUrl'>{this.state.isExitMode ? '' : this.state.shortUrl}</p>
         </div>
-        <p styles={styles.logo}>broadcast me</p>
+        <p styles={styles.logo}>broadcast it</p>
         <p styles={styles.live}>LIVE STREAM</p>
         <div styles={styles.dataContainer} id='dataContainer'>
           <div styles={styles.divider}></div>

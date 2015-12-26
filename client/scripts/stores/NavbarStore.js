@@ -73,6 +73,8 @@ module.exports = Reflux.createStore({
   },
   showExitScene: function() {
 
+    this.trigger('onBroadcastEnded');
+
     var shareToFacebook = document.getElementById('shareToFacebook');
     var shareWithUrl = document.getElementById('shareWithUrl');
     var endBroadcast = document.getElementById('endBroadcast');

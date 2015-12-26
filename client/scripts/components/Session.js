@@ -15,7 +15,10 @@ var Session = React.createClass({
     return { session: actions.getSession() }
   },
   onStateChange: function(func, data) {
-    this[func](data);
+    var cb = this[func];
+    if (typeof cb === 'function') {
+        cb(data);
+    }
   },
   componentDidMount: function() {
     this.listenTo(ConnectStore, this.onSessionReceived);
