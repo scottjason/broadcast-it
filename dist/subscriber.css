@@ -22,8 +22,8 @@ body {
 
 @font-face {
   font-family: 'poiret_oneregular';
-  src: url('../assets/fonts/poiretone-regular-webfont.eot');
-  src: url('../assets/fonts/poiretone-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/poiretone-regular-webfont.woff2') format('woff2'), url('../assets/fonts/poiretone-regular-webfont.woff') format('woff'), url('../assets/fonts/poiretone-regular-webfont.ttf') format('truetype'), url('../assets/fonts/poiretone-regular-webfont.svg#poiret_oneregular') format('svg');
+  src: url('assets/fonts/poiretone-regular-webfont.eot');
+  src: url('assets/fonts/poiretone-regular-webfont.eot?#iefix') format('embedded-opentype'), url('assets/fonts/poiretone-regular-webfont.woff2') format('woff2'), url('assets/fonts/poiretone-regular-webfont.woff') format('woff'), url('assets/fonts/poiretone-regular-webfont.ttf') format('truetype'), url('assets/fonts/poiretone-regular-webfont.svg#poiret_oneregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -135,7 +135,7 @@ body {
   display: none;
 }
 
-#constainer: {
+#exit-container: {
   position: absolute;
   height: 200px;
   width: 300px;
