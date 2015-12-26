@@ -536,10 +536,11 @@ module.exports = Reflux.createStore({
     var shareToFacebook = document.getElementById('shareToFacebook');
     var shareWithUrl = document.getElementById('shareWithUrl');
     var endBroadcast = document.getElementById('endBroadcast');
+    var cross = document.getElementById('cross');
     var slider = document.getElementById('slider');
     var dataContainer = document.getElementById('dataContainer');
 
-    var sequence = [{ e: $(shareToFacebook), p: { opacity: 0 }, o: { duration: 150 } }, { e: $(shareWithUrl), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, { e: $(endBroadcast), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, { e: $(dataContainer), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, { e: $(slider), p: { translateX: '-410px' }, o: { duration: 225, sequenceQueue: true } }];
+    var sequence = [{ e: $(shareToFacebook), p: { opacity: 0 }, o: { duration: 150 } }, { e: $(shareWithUrl), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, { e: $(endBroadcast), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, { e: $(dataContainer), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, { e: $(cross), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, { e: $(slider), p: { translateX: '-410px' }, o: { duration: 225, sequenceQueue: true } }];
     $.Velocity.RunSequence(sequence);
   }
 });

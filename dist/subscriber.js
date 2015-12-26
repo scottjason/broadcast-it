@@ -9,19 +9,16 @@ var opts = {
 var layoutContainer = document.getElementById('layoutContainer');
 var layout = initLayoutContainer(layoutContainer, opts).layout;
 
-var streamElem = document.getElementById("stream");
+var streamElem = document.getElementById('stream');
 var session = OT.initSession(key, sessionId);
 
 session.connect(token, function(error) {
   if (error) {
-    console.log("Error connecting: ", error.code, error.message);
-  } else {
-    console.log("Connected to the session.");
-  }
+    console.log('Error connecting: ', error.code, error.message);
+  } 
 });
 
-session.on("streamCreated", function(event) {
-  console.log("New stream in the session: " + event.stream.streamId);
+session.on('streamCreated', function(event) {
   session.subscribe(event.stream, streamElem);
   layout();
   var resizeTimeout;
@@ -31,4 +28,8 @@ session.on("streamCreated", function(event) {
       layout();
     }, 20);
   };
+
+  session.on('streamDestroyed', function(event) {
+  	document.getElementById('dataContainer').style.display = 'none';
+  	document.getElementById('exit').style.display = 'block';
 });

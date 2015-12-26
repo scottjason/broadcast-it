@@ -118,3 +118,53 @@ body {
   top: 14px;
   margin-left: 6px;
 }
+
+.exit {
+  position: fixed;
+  top: 75px;
+  left: 0px;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  z-index: 3;
+  display: none;
+}
+
+.constainer: {
+  position: absolute;
+  height: 200px;
+  width: 300px;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 250px;
+  margin: auto;
+  background-color: black;
+  text-align: center;
+}
+
+.exitCopy: {
+  position: relative;
+  font-family: 'Roboto-Regular';
+  color: white;
+  font-size: 32px;
+  margin-bottom: '10px'
+}
+
+.exitBtn: {
+  position: relative;
+  font-family: 'Roboto-Regular';
+  margin: auto;
+  margin-top: 0;
+  color: #848AFF;
+  width: 200px;
+  height: 30px;
+  font-size: 12px;
+  font-weight: 400;
+  border: 1px solid rgba(225, 225, 225, .6);
+  background-color: transparent;
+  padding-top: 5px;
+  cursor: pointer;
+}
