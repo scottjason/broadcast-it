@@ -135,7 +135,7 @@ body {
   display: none;
 }
 
-.constainer: {
+#constainer: {
   position: absolute;
   height: 200px;
   width: 300px;
