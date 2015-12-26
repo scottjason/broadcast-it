@@ -17,7 +17,7 @@ module.exports = Reflux.createStore({
   },
   endBroadcast: function() {
     this.state.session.disconnect();
-    this.trigger('onBroadcastEnded');
+    actions.showExitScene();
   },
   registerEvents: function() {
     this.state.session.on({
@@ -59,8 +59,7 @@ module.exports = Reflux.createStore({
     }.bind(this));
   }, 
   showExitScene: function() {
-    Velocity(document.getElementById("shareToFacebook"), { translateX: -500 }, { duration: 500 });
-    Velocity(document.getElementById("shareWithUrl"), { translateX: -500 }, { duration: 500 });
-    Velocity(document.getElementById("endBroadcast"), { translateX: -500 }, { duration: 500 });
-  }
+    var exit = document.getElementById('exit');
+    $(exit).velocity('fadeIn', { duration: 100 })
+  }  
 });

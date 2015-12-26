@@ -12,6 +12,7 @@ module.exports = Reflux.createStore({
     this.listenTo(actions.shareToFacebook, this.shareToFacebook);
     this.listenTo(actions.addViewer, this.addViewer);
     this.listenTo(actions.removeViewer, this.removeViewer);
+    this.listenTo(actions.showExitScene, this.showExitScene);
   },
   createShortUrl: function(sessionId) {
     var opts = {};
@@ -69,5 +70,22 @@ module.exports = Reflux.createStore({
   removeViewer: function() {
     this.state.viewCount--    
     this.trigger('onViewCountChanged', this.state.viewCount);    
+  },
+  showExitScene: function() {
+
+    var shareToFacebook = document.getElementById('shareToFacebook');
+    var shareWithUrl = document.getElementById('shareWithUrl');
+    var endBroadcast = document.getElementById('endBroadcast');
+    var slider = document.getElementById('slider');    
+    var dataContainer = document.getElementById('dataContainer');    
+      
+    var sequence = [
+      { e: $(shareToFacebook), p: { opacity: 0 }, o: { duration: 150 } }, 
+      { e: $(shareWithUrl), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } }, 
+      { e: $(endBroadcast), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } },
+      { e: $(dataContainer), p: { opacity: 0 }, o: { duration: 150, sequenceQueue: false } },
+      { e: $(slider), p: { translateX: '-410px' }, o: { duration: 225, sequenceQueue: true } },              
+    ];
+      $.Velocity.RunSequence(sequence); 
   }
 });

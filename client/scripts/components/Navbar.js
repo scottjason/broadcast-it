@@ -11,7 +11,7 @@ var actions = require('../actions/');
 var Navbar = React.createClass({
   mixins: [Navigation, Reflux.ListenerMixin],  
   getInitialState: function() {
-    return { session: {}, viewCount: 0, shortUrl: '', startedAt: null, expiresAt: null, timeLeft: null };
+    return { session: {}, viewCount: 0, shortUrl: '', startedAt: null, expiresAt: null, timeLeft: null, isExitMode: false };
   },
   onStateChange: function(func, data) {
     this[func](data);
@@ -52,6 +52,7 @@ var Navbar = React.createClass({
   },
   endBroadcast: function(event) {
     event.preventDefault();
+    this.setState({ isExitMode: true });
     actions.endBroadcast();
   },
   render: function() {
@@ -59,16 +60,18 @@ var Navbar = React.createClass({
       <div styles={styles.navbar}>
         <div styles={styles.cross} id='cross' onClick={this.shareWithUrl}>X</div>
         <div styles={styles.slider} id='slider'>
-          <p styles={styles.url} id='shortUrl'>{this.state.shortUrl}</p>
+          <p styles={styles.url} id='shortUrl'>{this.state.isExitMode ? '' : this.state.shortUrl}</p>
         </div>
         <p styles={styles.logo}>broadcast me</p>
         <p styles={styles.live}>LIVE STREAM</p>
-        <div styles={styles.divider}></div>
-        <p styles={styles.timeLeft}>TIME LEFT</p>
-        <p styles={styles.timer}>{this.state.timeLeft}</p>
-        <div styles={styles.divider}></div>        
-        <p styles={styles.timeLeft}>VIEW COUNT</p>
-        <p styles={styles.timer}>{this.state.viewCount}</p>        
+        <div styles={styles.dataContainer} id='dataContainer'>
+          <div styles={styles.divider}></div>
+          <p styles={styles.timeLeft}>TIME LEFT</p>
+          <p styles={styles.timer}>{this.state.timeLeft}</p>
+          <div styles={styles.divider}></div>        
+          <p styles={styles.timeLeft}>VIEW COUNT</p>
+          <p styles={styles.timer}>{this.state.viewCount}</p> 
+        </div>       
         <p styles={styles.endBroadcast} id='endBroadcast' onClick={this.endBroadcast}>END BROADCAST</p>        
         <p styles={styles.shareWithUrl} id='shareWithUrl' onClick={this.shareWithUrl}>SHARE WITH URL</p>
         <p styles={styles.shareToFacebook} id='shareToFacebook' onClick={this.shareToFacebook}>SHARE TO FACEBOOK</p>        
@@ -106,6 +109,10 @@ var styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 400,
     top: 14
+  },
+  dataContainer: {
+    position: 'relative',
+    display: 'inline-block'
   },
   divider: {
     position: 'relative',
