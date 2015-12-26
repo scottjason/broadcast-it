@@ -3,9 +3,10 @@
 var React = window.React = require('react');
 var Reflux = require('reflux');
 var Navigation = require('react-router').Navigation;
-var actions = require('../actions/');
 var Navbar = require('./Navbar.js');
 var ConnectStore = require('../stores/ConnectStore.js');
+var SessionStore = require('../stores/SessionStore.js');
+var actions = require('../actions/');
 
 var Session = React.createClass({
   mixins: [Navigation, Reflux.ListenerMixin],  
@@ -17,50 +18,7 @@ var Session = React.createClass({
   },
   onSessionReceived: function(session) {
     this.setState({ session: session });
-    this.startBroadcast();
-  },
-  startBroadcast: function() {
-    var session = OT.initSession(this.state.session.key, this.state.session.sessionId);
-    this.registerEvents(session);
-    session.connect(this.state.session.token, function(error) {
-      if (error) {
-        console.log(error.message);
-      } else {
-        var opts = {
-          Animator: {
-            duration: 500,
-            easing: 'swing'
-          },
-          bigFixedRatio: false
-        };
-        var layoutContainer = document.getElementById('layoutContainer');
-        var layout = initLayoutContainer(layoutContainer, opts).layout;
-        session.publish("pubContainer");
-        layout();
-        var resizeTimeout;
-        window.onresize = function() {
-          clearTimeout(resizeTimeout);
-          resizeTimeout = setTimeout(function() {
-            layout();
-          }, 20);
-        };
-      }
-    });
-  },  
-  registerEvents: function(session) {
-    session.on({
-      connectionCreated: function(event) {
-        actions.addViewer();
-        console.log('connection created');        
-      },
-      connectionDestroyed: function(event) {
-        actions.removeViewer();        
-        console.log('connection destroyed');                
-      },
-      sessionDisconnected: function sessionDisconnectHandler(event) {
-        console.log('Disconnected from the session: ', event.reason);
-      }
-    });
+    actions.startBroadcast(session);
   },
   render: function() {
     return (
