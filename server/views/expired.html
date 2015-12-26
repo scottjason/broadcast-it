@@ -6,17 +6,31 @@
   <title>broadcast it</title>
   <meta author="Scott Jason">
   <meta name="viewport" content="width=device-width">
+  <meta property="og:title" content="broadcast it" />
+  <meta property="og:site_name" content="broadcast it" />
+  <meta property="fb:app_id" content=<%= fbAppId %> />
+  <meta property="og:url" content=<%= siteUrl %> />
+  <meta property="og:image" content="https://raw.githubusercontent.com/scottjason/room-baby-api/master/server/views/img/rb-embed-735-350.png" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>  
-  <link rel="stylesheet" type="text/css" href="/styles/main.css">
+  <link rel="stylesheet" type="text/css" href="/subscriber.css">
 </head>
 
 <body>
 
-  <div id="app">
-    <p>EXPIRED</p>
+
+  <div class="navbar">
+    <p class="logo">broadcast it</p>
+    <p class="live">LIVE STREAM</p>   
   </div>
     
-  <script src="/bower_components/velocity/velocity.min.js"></script>
+  <div class="exit" id='exit-expired'>
+    <div id="exit-container">
+      <p class="exitCopy">BROADCAST ENDED</p>
+      <div id="exitBtn">EXIT</div>
+    </div>
+  </div>
+
+  <script type='text/javascript' src="/expired.js"></script>
 
 </body>
 
