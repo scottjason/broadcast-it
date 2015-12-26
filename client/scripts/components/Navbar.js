@@ -23,7 +23,7 @@ var Navbar = React.createClass({
     this.listenTo(ConnectStore, this.onSessionReceived);    
     this.listenTo(NavbarStore, this.onStateChange);    
     this.setState({ startedAt: new Date().getTime() });
-    this.setState({ expiresAt: new Date().getTime() + 10000 });
+    this.setState({ expiresAt: new Date().getTime() + 120000 });
     this.timer = setInterval(this.tick, 50);
   },
   componentWillUnmount: function(){
