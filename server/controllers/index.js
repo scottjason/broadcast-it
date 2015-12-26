@@ -49,6 +49,7 @@ exports.joinBroadcast = function(req, res, next) {
 
   // first see if the publisher hit refresh
   client.get(req.params.sessionId, function(err, session) {
+    session = JSON.parse(session);
     console.log("got back session on client.get", session)
     if (!session || err) {
       console.log("No Broadcast Exists, Notify");
