@@ -4,9 +4,7 @@ var config = require('../config/index.js');
 var redis = require('redis');
 
 var env = (process.env.NODE_ENV !== 'production') ? require('../../env.js') : {};
-var client = redis.createClient(config.redisUrl, {
-  no_ready_check: true
-});
+var client = redis.createClient(config.redisUrl, { no_ready_check: true });
 
 var bitly = new Bitly(process.env.BITLY_KEY || config.bitly);
 var opentok = new OpenTok(process.env.opentokKey || env.openTok.key, process.env.opentokSecret || env.openTok.secret);
