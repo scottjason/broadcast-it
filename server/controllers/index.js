@@ -22,7 +22,7 @@ exports.createSession = function(req, res, next) {
     mediaMode: 'routed'
   }, function(err, session) {
     if (err) return next(err);
-    var expiresAt = new Date().getTime() + 180000 // three minutes
+    var expiresAt = new Date().getTime() + 120000;
     var opts = {};
     opts.role = 'moderator';
     session.token = opentok.generateToken(session.sessionId, opts);
@@ -40,22 +40,21 @@ exports.joinBroadcast = function(req, res, next) {
   client.get(req.params.sessionId, function(err, session) {
     session = JSON.parse(session);
 
-    res.locals.fbAppId = '187072508310833';
-    res.locals.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
+    var opts = {};
+    opts.fbAppId = '187072508310833';
+    opts.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
 
     var isExpired = (new Date().getTime() >= session.expiresAt);
     if (isExpired) {
       res.render('expired');
       return;
     }
-    var opts = {};
     opts.role = 'subscriber';
-    res.locals.token = opentok.generateToken(req.params.sessionId, opts);
-    res.locals.key = process.env.opentokKey || config.opentok.key;
-    res.locals.sessionId = req.params.sessionId;
-    res.locals.expiresAt = session.expiresAt;
-    res.render('subscriber');
-
+    opts.token = opentok.generateToken(req.params.sessionId, opts);
+    opts.key = process.env.opentokKey || env.openTok.key;
+    opts.sessionId = req.params.sessionId;
+    opts.expiresAt = session.expiresAt;
+    res.render('subscriber', opts);
   });
 };
 

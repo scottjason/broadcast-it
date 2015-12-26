@@ -12,29 +12,42 @@
   <meta property="og:url" content=<%= siteUrl %> />
   <meta property="og:image" content="https://raw.githubusercontent.com/scottjason/room-baby-api/master/server/views/img/rb-embed-735-350.png" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>  
-  <link rel="stylesheet" type="text/css" href="/styles/main.css">
+  <link rel="stylesheet" type="text/css" href="/styles/subscriber.css">
 </head>
 
 <body>
 
-
-  <script>
+<script>
     var sessionId = <%- JSON.stringify(sessionId) %>;
     var key = <%- JSON.stringify(key) %>;
     var token = <%- JSON.stringify(token) %>;
     var expiresAt = <%- JSON.stringify(expiresAt) %>;
   </script>
+
+
+
+  <div class="navbar">
+    <p class="logo">broadcast it</p>
+    <p class="live">LIVE STREAM</p>
+    <div class="dataContainer" id='dataContainer'>
+      <div class="divider"></div>
+      <p class="timeLeft">TIME LEFT</p>
+      <p class="timer"></p>
+      <div class="divider"></div>        
+      <p class="timeLeft">VIEW COUNT</p>
+      <p class="timer"></p> 
+    </div>       
+  </div>
   
   <div id="layoutContainer">
     <div id='stream'></div>
   </div>
-    
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/velocity/velocity.min.js"></script>
   <script src="/bower_components/velocity/velocity.ui.min.js"></script>    
   <script src='//static.opentok.com/v2/js/opentok.min.js'></script>
   <script src='/lib/scripts/opentok-layout.min.js'></script>
-  <script src="/scripts/subscriber/index.js"></script>  
+  <script type='text/javascript' src="/subscriber.js"></script>  
 
 </body>
 
