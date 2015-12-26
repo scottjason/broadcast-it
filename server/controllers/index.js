@@ -48,23 +48,24 @@ exports.redirect = function(req, res, next) {
 };
 
 exports.joinBroadcast = function(req, res, next) {
-  
+
   var opts = {};
 
-  // first see if the publisher hit refresh
   client.get(req.params.sessionId, function(err, session) {
     session = JSON.parse(session);
+
+    res.locals.fbAppId = '187072508310833';
+    res.locals.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
 
     // check expiration
     var isExpired = (new Date().getTime() >= session.expiresAt);
     if (isExpired) {
-      console.log("Expired Broadcast .. Remove and Notify");
+      res.render('expired');
       return;
     }
     // render
     res.locals.token = opentok.generateToken(req.params.sessionId, opts);
-    res.locals.fbAppId = '187072508310833';
-    res.locals.siteUrl = 'https://broadcast-it.herokuapp.com/' + req.params.sessionId;
+
     res.locals.key = process.env.opentokKey || config.opentok.key;
     res.locals.sessionId = req.params.sessionId;
     res.render('stream');
