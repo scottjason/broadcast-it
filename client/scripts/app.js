@@ -12,6 +12,7 @@ window.debug = false;
 ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={Connect}></Route>
-    <Route path="/:sessionId" component={Session} />
+    <Route path="/publisher/:sessionId" component={Session} />
+    <Route path="/subscriber/:sessionId" component={Session} />
   </Router>
 ), document.getElementById('app'));
