@@ -1,76 +1,48 @@
+var Reflux = require('reflux');
 var Api = require('../api/index.js');
-var Dispatcher = require('../dispatcher/index.js');
-var EventEmitter = require('events').EventEmitter;
-var merge = require('merge');
+var actions = require('../actions');
 
-var state = {};
-
-function generateShortUrl(opts) {
-  var requestOpts = {};
-  requestOpts.url = '/shortUrl';
-  requestOpts.longUrl = 'https://broadcast-it-api.herokuapp.com/' + opts.sessionId;
-  Api.post(requestOpts, function(err, results){
-    state.shortUrl = results.url;
-    NavbarStore.emitChange();
-  });
-}
-
-function shareToFacebook(opts) {
-  FB.ui({
-    method: 'feed',
-    link: 'https://broadcast-it-api.herokuapp.com/' + opts.sessionId,
-    caption: 'Join Live Stream',
-  }, function(response) {
-    console.log('Facebook Response', response);
-  });
-}
-function toggleSlider() {
-  state.isToggled = !state.isToggled;
-  if (state.isToggled) {
-    Velocity(document.getElementById("shareToFacebook"), { opacity: 0 }, { display: "none" }, { duration: 1 });
-    Velocity(document.getElementById("shareWithUrl"), { opacity: 0 }, { display: "none" }, { duration: 1 });
-    Velocity(document.getElementById("endBroadcast"), { opacity: 0 }, { display: "none" }, { duration: 1 });
-    Velocity(document.getElementById("slider"), { translateX: -400 }, { duration: 225 });    
-    Velocity(document.getElementById("cross"), { opacity: 1 }, { duration: 225 }); 
-    Velocity(document.getElementById("cross"), { rotateZ: 720 }, { duration: 500 });
-  } else {
-    Velocity(document.getElementById("cross"), { rotateZ: -720 }, { duration: 500 });
-    Velocity(document.getElementById("cross"), { opacity: 0 }, { duration: 225 });      
-    Velocity(document.getElementById("slider"), { translateX: 400 }, { delay: 500, duration: 225 });
-    setTimeout(function() {
-      Velocity(document.getElementById("shareToFacebook"), { opacity: 1 }, { display: 'inline-block' }, { duration: 50 });           
-      Velocity(document.getElementById("shareWithUrl"), { opacity: 1 }, { display: "inline-block" }, { duration: 50 });
-      Velocity(document.getElementById("endBroadcast"), { opacity: 1 }, { display: "inline-block" }, { duration: 50 });
-    }, 375);
-  }
-}
-
-var NavbarStore = merge(EventEmitter.prototype, {
-
-  getShortUrl: function() {
-    return state.shortUrl;
+module.exports = Reflux.createStore({
+  state: {},
+  init: function() {
+    this.listenTo(actions.createShortUrl, this.createShortUrl);
+    this.listenTo(actions.toggleUrl, this.toggleUrl);
   },
-  emitChange: function() {
-    this.emit('change');
+  createShortUrl: function(sessionId) {
+    var opts = {};
+    opts.url = '/shortUrl';
+    opts.longUrl = 'https://broadcast-it-api.herokuapp.com/' + sessionId;
+    Api.post(opts, function(err, results) {
+      this.trigger('onShortUrlCreated', results.url);
+    }.bind(this));
   },
-  addChangeListener: function(cb) {
-    this.on('change', cb);
-  },
-  removeChangeListener: function(cb) {
-    this.removeListener('change', cb);
+  toggleUrl: function() {
+    this.state.isToggled = !this.state.isToggled;
+    if (this.state.isToggled) {
+      Velocity(document.getElementById("shareToFacebook"), { opacity: 0 }, { display: "none" }, { duration: 1 });
+      Velocity(document.getElementById("shareWithUrl"), { opacity: 0 }, { display: "none" }, { duration: 1 });
+      Velocity(document.getElementById("endBroadcast"), { opacity: 0 }, { display: "none" }, { duration: 1 });
+      Velocity(document.getElementById("slider"), { translateX: -400 }, { duration: 225 });    
+      Velocity(document.getElementById("cross"), { opacity: 1 }, { duration: 225 }); 
+      Velocity(document.getElementById("cross"), { rotateZ: 720 }, { duration: 500 });
+    } else {
+      Velocity(document.getElementById("cross"), { rotateZ: -720 }, { duration: 500 });
+      Velocity(document.getElementById("cross"), { opacity: 0 }, { duration: 225 });      
+      Velocity(document.getElementById("slider"), { translateX: 400 }, { delay: 500, duration: 225 });
+      setTimeout(function() {
+        Velocity(document.getElementById("shareToFacebook"), { opacity: 1 }, { display: 'inline-block' }, { duration: 50 });           
+        Velocity(document.getElementById("shareWithUrl"), { opacity: 1 }, { display: "inline-block" }, { duration: 50 });
+        Velocity(document.getElementById("endBroadcast"), { opacity: 1 }, { display: "inline-block" }, { duration: 50 });
+      }, 375);
+    }
+  }, 
+  shareToFacebook: function(sessionId) {
+    FB.ui({
+      method: 'feed',
+      link: 'https://broadcast-it-api.herokuapp.com/' + sessionId,
+      caption: 'Join Live Stream',
+    }, function(response) {
+      console.log('Facebook Response', response);
+    });
   }
 });
-
-Dispatcher.register(function(action) {
-  var type = action.type;
-  if (type === 'toggle') {
-    return toggleSlider();
-  } else if (type === 'shortUrl') {
-    return generateShortUrl(action.opts);
-  } else if (type === 'facebook') {
-    return shareToFacebook(action.opts);
-  }
-  return true;
-});
-
-module.exports = NavbarStore;

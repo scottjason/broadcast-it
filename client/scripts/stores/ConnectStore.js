@@ -1,39 +1,24 @@
-var Dispatcher = require('../dispatcher/index.js');
-var EventEmitter = require('events').EventEmitter;
-var merge = require('merge');
+var Reflux = require('reflux');
 var Api = require('../api/index.js');
+var actions = require('../actions');
 
-var state = {};
-
-function createSession(url) {
-  Api.get(url, function(err, data) {
-    state.session = JSON.parse(data.response);
-    ConnectStore.emitChange();
-  });
-}
-
-var ConnectStore = merge(EventEmitter.prototype, {
-
-  getSessionData: function() {
-    return state.session;
+module.exports = Reflux.createStore({
+  state: {},
+  init: function() {
+    this.listenTo(actions.createSession, this.createSession);
+    this.listenTo(actions.getSession, this.getSession);
   },
-  emitChange: function() {
-    this.emit('change');
+  createSession: function(url) {
+    Api.get(url, function(err, data) {
+      var session = JSON.parse(data.response);
+      this.setSession(session);
+      this.trigger(session);
+    }.bind(this));
   },
-  addChangeListener: function(cb) {
-    this.on('change', cb);
+  setSession: function(session) {
+    this.state.session = session;
   },
-  removeChangeListener: function(cb) {
-    this.removeListener('change', cb);
+  getSession: function() {
+  	this.trigger(this.state.session);
   }
 });
-
-Dispatcher.register(function(action) {
-  var type = action.type;
-  if (type === 'create') {
-    return createSession('/create');
-  }
-  return true;
-});
-
-module.exports = ConnectStore;

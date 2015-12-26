@@ -19,6 +19,11 @@ function removeViewer(opts) {
   SessionStore.emitChange();  
 }
 
+function sessionEnded() {
+  state.isSessionEnded = true;
+  SessionStore.emitChange();    
+}
+
 var SessionStore = merge(EventEmitter.prototype, {
 
   getSession: function() {
@@ -46,6 +51,8 @@ Dispatcher.register(function(action) {
     return addViewer(action.opts);
   } else if (type === 'removeViewer') {
     return removeViewer(action.opts);
+  } else if (type === 'sessionEnded') {
+    return sessionEnded();
   }
   return false;
 });

@@ -1,22 +1,35 @@
 'use strict';
 
 var React = window.React = require('react');
+var Reflux = require('reflux');
 var StyleSheet = require('react-style');
-var NavbarActions = require('../actions/NavbarActions.js');
+var Navigation = require('react-router').Navigation;
 var NavbarStore = require('../stores/NavbarStore.js');
-var SessionStore = require('../stores/SessionStore.js');
+var ConnectStore = require('../stores/ConnectStore.js');
+var actions = require('../actions/');
+
 
 var Navbar = React.createClass({
+  mixins: [Navigation, Reflux.ListenerMixin],  
   getInitialState: function() {
-    return { session: SessionStore.getSession(), viewCount: 0, shortUrl: null, startedAt: null, expiresAt: null, timeLeft: null };
+    return { session: {}, viewCount: 0, shortUrl: '', startedAt: null, expiresAt: null, timeLeft: null };
   },
   componentDidMount: function(){
+    this.listenTo(ConnectStore, this.onSessionReceived);    
+    this.listenTo(NavbarStore, this.onStateChange);    
     this.setState({ startedAt: new Date().getTime() });
     this.setState({ expiresAt: new Date().getTime() + 120000 });
-    this.timer = setInterval(this.tick, 50);
+    setTimeout(function() {
+      this.timer = setInterval(this.tick, 50);
+    }, 1000);
   },
   componentWillUnmount: function(){
     clearInterval(this.timer);
+  },
+  onSessionReceived: function(session) {
+    console.log("session received in navbar component", session);
+    this.setState({ session: session });
+    actions.createShortUrl(session);
   },
   tick: function(){
     var timeLeft = this.state.expiresAt - new Date().getTime();
@@ -24,26 +37,26 @@ var Navbar = React.createClass({
     var seconds = ((timeLeft % 60000) / 1000).toFixed(0);
     this.setState({timeLeft: minutes + ':' + seconds });
   },
-  stateHasChanged: function() {
-    if (!this.state.shortUrl) {
-      NavbarStore.removeChangeListener(this.stateHasChanged);          
-      this.setState({ shortUrl: NavbarStore.getShortUrl() });
-    }
-      this.setState({ viewCount: SessionStore.getViewCount() });
+  onStateChange: function(func, data) {
+    console.log("state has changed in navbar component");  
+    this[func](data);
+    // this.setState({ viewCount: SessionStore.getViewCount() });
   },
-  generateUrl: function() {
-    if (!this.state.shortUrl) {
-      NavbarStore.addChangeListener(this.stateHasChanged);
-      NavbarActions.generateShortUrl('shortUrl', { sessionId: this.state.session.sessionId } );
-      return '';
-    }
-    return this.state.shortUrl;
+  onShortUrlCreated: function(shortUrl) {
+    console.log("shortUrl created in navbar component")
+    this.setState({ shortUrl: shortUrl });
   },
-  shareWithUrl: function() {
-    NavbarActions.toggle('toggle', {});
+  shareWithUrl: function(event) {
+    event.preventDefault();    
+    actions.toggleUrl();
   },
-  shareToFacebook: function() {
-    NavbarActions.share('facebook', { sessionId: this.state.session.sessionId } );    
+  shareToFacebook: function(event) {
+    event.preventDefault();    
+    // NavbarActions.share('facebook', { sessionId: this.state.session.sessionId } );    
+  },
+  endBroadcast: function(event) {
+    event.preventDefault();
+    // SessionActions.sessionEnded('sessionEnded', {});
   },
   render: function() {
 
@@ -51,7 +64,7 @@ var Navbar = React.createClass({
       <div styles={styles.navbar}>
           <div styles={styles.cross} id='cross' onClick={this.shareWithUrl}>X</div>
           <div styles={styles.slider} id='slider'>
-            <p styles={styles.url} id='shortUrl'>{this.generateUrl()}</p>
+            <p styles={styles.url} id='shortUrl'>{this.state.shortUrl}</p>
           </div>
         <p styles={styles.logo}>broadcast me</p>
         <p styles={styles.live}>LIVE STREAM</p>
@@ -61,7 +74,7 @@ var Navbar = React.createClass({
         <div styles={styles.divider}></div>        
         <p styles={styles.timeLeft}>VIEW COUNT</p>
         <p styles={styles.timer}>{this.state.viewCount}</p>        
-        <p styles={styles.endBroadcast} id='endBroadcast'>END BROADCAST</p>        
+        <p styles={styles.endBroadcast} id='endBroadcast' onClick={this.endBroadcast}>END BROADCAST</p>        
         <p styles={styles.shareWithUrl} is='shareWithUrl' onClick={this.shareWithUrl}>SHARE WITH URL</p>
         <p styles={styles.shareToFacebook} id='shareToFacebook' onClick={this.shareToFacebook}>SHARE TO FACEBOOK</p>        
       </div>
@@ -132,9 +145,9 @@ var styles = StyleSheet.create({
     float: 'right',
     marginRight: 20,
     color: '#848AFF',
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: 400,
-    top: 10,
+    top: 14,
     cursor: 'pointer'
   },
   shareWithUrl: {
@@ -143,9 +156,9 @@ var styles = StyleSheet.create({
     float: 'right',
     marginRight: 20,
     color: '#848AFF',
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: 400,
-    top: 10,
+    top: 14,
     cursor: 'pointer'
   },
   endBroadcast: {
@@ -154,9 +167,9 @@ var styles = StyleSheet.create({
     float: 'right',
     marginRight: 20,
     color: '#848AFF',
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: 400,
-    top: 10,
+    top: 14,
     marginRight: 20,
     cursor: 'pointer'
   },

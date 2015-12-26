@@ -24,14 +24,20 @@ var SessionActions = {
       type: type,
       opts: opts
     });
-  },  
+  },
   addViewer: function(type, opts) {
     dispatcher.dispatch({
       type: type,
       opts: opts
     });
-  },  
+  },
   removeViewer: function(type, opts) {
+    dispatcher.dispatch({
+      type: type,
+      opts: opts
+    });
+  },
+  sessionEnded: function(type, opts) {
     dispatcher.dispatch({
       type: type,
       opts: opts

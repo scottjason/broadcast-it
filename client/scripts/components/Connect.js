@@ -1,32 +1,27 @@
 'use strict';
 
 var React = window.React = require('react');
+var Reflux = require('reflux');
 var StyleSheet = require('react-style');
-var ConnectActions = require('../actions/ConnectActions.js');
 var ConnectStore = require('../stores/ConnectStore.js');
-var SessionStore = require('../stores/SessionStore.js');
 var Navigation = require('react-router').Navigation;
+var actions = require('../actions/index.js');
 
 var Connect = React.createClass({
-  mixins: [Navigation],
+  mixins: [Navigation, Reflux.ListenerMixin],
   getInitialState: function() {
     return {};
   },
+  componentDidMount: function() {
+    this.listenTo(ConnectStore, this.onSessionCreated);
+  },
   createSession: function(event) {
     event.preventDefault();
-    ConnectStore.addChangeListener(this.stateHasChanged);
-    ConnectActions.create('create', {});
+    actions.createSession('/create');
   },
-  joinSession: function() {
-    event.preventDefault();
-    ConnectStore.addChangeListener(this.stateHasChanged);
-    ConnectActions.join('join', {});
-  },
-  stateHasChanged: function() {
-    ConnectStore.removeChangeListener(this.stateHasChanged);    
-    var session = ConnectStore.getSessionData();    
-    var path = '/session/' + session.sessionId;    
-    ConnectActions.set('setSession', session);
+  onSessionCreated: function(session) {
+    this.stopListeningToAll();
+    var path = '/' + session.sessionId;    
     this.props.history.pushState(null, path);
   },
   render: function() {
@@ -35,8 +30,6 @@ var Connect = React.createClass({
         <p styles={styles.logo}>broadcast it</p>        
         <div styles={styles.underline}></div>   
         <div styles={styles.option} onClick={this.createSession} >create</div>                   
-        <div styles={styles.divider}></div>     
-        <div styles={[styles.option, styles.secondOpt]} onClick={this.joinSession}>join</div>                                  
       </div>
     )
   },
@@ -76,9 +69,6 @@ var styles = StyleSheet.create({
     fontWeight: 300,
     cursor: 'pointer'
   },
-  secondOpt: {
-    marginRight: 20
-  },
   underline: {
     position: 'absolute',
     top: 137,
@@ -88,17 +78,6 @@ var styles = StyleSheet.create({
     width: 370,
     height: 1,
     backgroundColor: 'rgba(225, 225, 225, .2)'
-  },
-  divider: {
-    position: 'relative',
-    display: 'inline-block',
-    float: 'right',
-    top: 6,
-    right: 30,
-    width: 1,
-    height: 12,
-    backgroundColor: '#848AFF',
-    opacity: .4
   }
 });
 

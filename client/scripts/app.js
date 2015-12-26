@@ -10,6 +10,6 @@ var Session = require('./components/Session.js');
 ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={Connect}></Route>
-    <Route path="/session/:sessionId" component={Session} />
+    <Route path="/:sessionId" component={Session} />
   </Router>
 ), document.getElementById('app'));

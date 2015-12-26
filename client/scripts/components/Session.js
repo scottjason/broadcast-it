@@ -1,55 +1,63 @@
 'use strict';
 
 var React = window.React = require('react');
-var SessionActions = require('../actions/SessionActions.js');
+var Reflux = require('reflux');
+var Navigation = require('react-router').Navigation;
+var actions = require('../actions/');
 var SessionStore = require('../stores/SessionStore.js');
+var ConnectStore = require('../stores/ConnectStore.js');
 var Navbar = require('./Navbar.js');
 
 var Session = React.createClass({
+  mixins: [Navigation, Reflux.ListenerMixin],  
   getInitialState: function() {
-    return {
-      session: SessionStore.getSession()
-    }
-  },
+    return { session: actions.getSession() }
+  },  
+  onSessionReceived: function(session) {
+    console.log("session received in session", session);
+    this.setState({ session: session });
+    console.log("session state", this.state);
+  },  
   componentDidMount: function() {
-    var session = OT.initSession(this.state.session.key, this.state.session.sessionId);
-    this.registerEvents(session);
-    session.connect(this.state.session.token, function(error) {
-      if (error) {
-        console.log(error.message);
-      } else {
-        var opts = {
-          Animator: {
-            duration: 500,
-            easing: 'swing'
-          },
-          bigFixedRatio: false
-        };
-        var layoutContainer = document.getElementById('layoutContainer');
-        var layout = initLayoutContainer(layoutContainer, opts).layout;
-        session.publish("publisherContainer");
-        layout();
-        var resizeTimeout;
-        window.onresize = function() {
-          clearTimeout(resizeTimeout);
-          resizeTimeout = setTimeout(function() {
-            layout();
-          }, 20);
-        };
-      }
-    });
+    this.listenTo(ConnectStore, this.onSessionReceived);  
+    // var session = OT.initSession(this.state.session.key, this.state.session.sessionId);
+    // this.registerEvents(session);
+    // session.connect(this.state.session.token, function(error) {
+    //   if (error) {
+    //     console.log(error.message);
+    //   } else {
+    //     var opts = {
+    //       Animator: {
+    //         duration: 500,
+    //         easing: 'swing'
+    //       },
+    //       bigFixedRatio: false
+    //     };
+    //     var layoutContainer = document.getElementById('layoutContainer');
+    //     var layout = initLayoutContainer(layoutContainer, opts).layout;
+    //     session.publish("publisherContainer");
+    //     layout();
+    //     var resizeTimeout;
+    //     window.onresize = function() {
+    //       clearTimeout(resizeTimeout);
+    //       resizeTimeout = setTimeout(function() {
+    //         layout();
+    //       }, 20);
+    //     };
+    //   }
+    // });
   },
   registerEvents: function(session) {
     var connectionCount = 0;
     session.on({
       connectionCreated: function(event) {
         connectionCount++;
-        SessionActions.addViewer('addViewer', connectionCount);
+        // SessionActions.addViewer('addViewer', connectionCount);
         console.log(connectionCount + ' connections.');
       },
       connectionDestroyed: function(event) {
         connectionCount--;
-        SessionActions.removeViewer('addViewer', connectionCount);
+        // SessionActions.removeViewer('addViewer', connectionCount);
         console.log(connectionCount + ' connections.');
       },
       sessionDisconnected: function sessionDisconnectHandler(event) {
