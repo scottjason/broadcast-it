@@ -7,6 +7,8 @@ var createBrowserHistory = require('history/lib/createBrowserHistory');
 var Connect = require('./components/Connect.js');
 var Session = require('./components/Session.js');
 
+window.debug = false;
+
 ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={Connect}></Route>

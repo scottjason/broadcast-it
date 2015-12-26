@@ -8,7 +8,6 @@ var NavbarStore = require('../stores/NavbarStore.js');
 var ConnectStore = require('../stores/ConnectStore.js');
 var actions = require('../actions/');
 
-
 var Navbar = React.createClass({
   mixins: [Navigation, Reflux.ListenerMixin],  
   getInitialState: function() {
@@ -53,7 +52,7 @@ var Navbar = React.createClass({
   },
   endBroadcast: function(event) {
     event.preventDefault();
-    console.log('end broadcast');
+    actions.endBroadcast();
   },
   render: function() {
     return (
@@ -71,7 +70,7 @@ var Navbar = React.createClass({
         <p styles={styles.timeLeft}>VIEW COUNT</p>
         <p styles={styles.timer}>{this.state.viewCount}</p>        
         <p styles={styles.endBroadcast} id='endBroadcast' onClick={this.endBroadcast}>END BROADCAST</p>        
-        <p styles={styles.shareWithUrl} is='shareWithUrl' onClick={this.shareWithUrl}>SHARE WITH URL</p>
+        <p styles={styles.shareWithUrl} id='shareWithUrl' onClick={this.shareWithUrl}>SHARE WITH URL</p>
         <p styles={styles.shareToFacebook} id='shareToFacebook' onClick={this.shareToFacebook}>SHARE TO FACEBOOK</p>        
       </div>
     )
@@ -171,9 +170,8 @@ var styles = StyleSheet.create({
   },
   cross: {
     position: 'absolute',
-    right: '145px',
-    top: 24,
-    opacity: 0,
+    right: '-145px',
+    top: 23.5,
     fontWeight: 300,
     cursor: 'pointer',
     zIndex: 2

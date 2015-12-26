@@ -6,14 +6,21 @@ module.exports = Reflux.createStore({
   state: {},
   init: function() {
     this.listenTo(actions.startBroadcast, this.startBroadcast);
+    this.listenTo(actions.endBroadcast, this.endBroadcast);
+    this.listenTo(actions.showExitScene, this.showExitScene);
   },
   startBroadcast: function(otSession) {
     var session = OT.initSession(otSession.key, otSession.sessionId);
-    this.registerEvents(session);
-    this.connect(session, otSession.token);
+    this.state.session = session;
+    this.registerEvents();
+    this.connect(otSession.token);
   },
-  registerEvents: function(session) {
-    session.on({
+  endBroadcast: function() {
+    this.state.session.disconnect();
+    this.trigger('onBroadcastEnded');
+  },
+  registerEvents: function() {
+    this.state.session.on({
       connectionCreated: function(event) {
         actions.addViewer();
       },
@@ -25,8 +32,8 @@ module.exports = Reflux.createStore({
       }
     });
   },
-  connect: function(session, token) {
-    session.connect(token, function(error) {
+  connect: function(token) {
+    this.state.session.connect(token, function(error) {
       if (error) {
         console.log(error.message);
       } else {
@@ -39,7 +46,7 @@ module.exports = Reflux.createStore({
         };
         var layoutContainer = document.getElementById('layoutContainer');
         var layout = initLayoutContainer(layoutContainer, opts).layout;
-        session.publish("pubContainer");
+        this.state.session.publish("pubContainer");
         layout();
         var resizeTimeout;
         window.onresize = function() {
@@ -49,6 +56,11 @@ module.exports = Reflux.createStore({
           }, 20);
         };
       }
-    });
+    }.bind(this));
+  }, 
+  showExitScene: function() {
+    Velocity(document.getElementById("shareToFacebook"), { translateX: -500 }, { duration: 500 });
+    Velocity(document.getElementById("shareWithUrl"), { translateX: -500 }, { duration: 500 });
+    Velocity(document.getElementById("endBroadcast"), { translateX: -500 }, { duration: 500 });
   }
 });

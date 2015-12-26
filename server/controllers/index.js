@@ -21,7 +21,9 @@ exports.createSession = function(req, res, next) {
     mediaMode: 'routed'
   }, function(err, session) {
     if (err) return next(err);
-    session.token = opentok.generateToken(session.sessionId);
+    var opts = {};
+    opts.role = 'moderator';
+    session.token = opentok.generateToken(session.sessionId, opts);
     session.key = session.ot.apiKey;
     res.status(200).send(session);
   });
@@ -34,7 +36,9 @@ exports.joinBroadcast = function(req, res, next) {
 exports.generateShortUrl = function(req, res, next) {
   bitly.shorten(req.body.longUrl)
     .then(function(response) {
-      res.status(200).send({url: response.data.url});
+      res.status(200).send({
+        url: response.data.url
+      });
     }, function(error) {
       console.log(err);
       next(err)

@@ -19,6 +19,6 @@ module.exports = Reflux.createStore({
     this.state.session = session;
   },
   getSession: function() {
-  	this.trigger(this.state.session);
+    this.trigger(this.state.session);
   }
 });
