@@ -5,8 +5,9 @@ var actions = require('../actions');
 module.exports = Reflux.createStore({
   state: {},
   init: function() {
-    if (window.sessionId) {
-      return console.log("server redirect");
+    if (window.isSubscriber) {
+      this.getSession();
+      return;
     }
     this.listenTo(actions.createSession, this.createSession);
     this.listenTo(actions.getSession, this.getSession);
@@ -23,7 +24,7 @@ module.exports = Reflux.createStore({
   },
   getSession: function() {
     if (!window.isSubscriber) {
-      console.log("isPublisher");      
+      console.log("isPublisher");
       this.trigger(this.state.session);
     } else {
       console.log("isSubscriber");
