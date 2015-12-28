@@ -71,8 +71,8 @@ var Navbar = React.createClass({
   render: function() {
     return (
       <div styles={styles.navbar}>
-        <div styles={styles.cross} id='cross' onClick={this.shareWithUrl}>X</div>
         <div styles={styles.slider} id='slider'>
+          <div styles={styles.cross} id='cross' onClick={this.shareWithUrl}>X</div>        
           <p styles={styles.url} id='shortUrl'>{this.state.isExitMode ? '' : this.state.shortUrl}</p>
         </div>
         <p styles={styles.logo}>broadcast it</p>
@@ -189,8 +189,9 @@ var styles = StyleSheet.create({
     cursor: 'pointer'
   },
   cross: {
-    position: 'absolute',
-    right: '-145px',
+    position: 'relative',
+    display: 'inline-block',
+    float: 'right',
     top: 23.5,
     fontWeight: 300,
     cursor: 'pointer',
@@ -203,13 +204,14 @@ var styles = StyleSheet.create({
     width: '400px',
     height: '65px',
     backgroundColor: 'black',
-    zIndex: 1
+    zIndex: 1,
+    textAlign: 'right'
   },
   url: {
     position: 'relative',
+    display: 'inline-block',
     color: '#848AFF',
     top: 14,
-    float: 'right',
     fontSize: 12,
     fontWeight: 400,
     zIndex: 2,

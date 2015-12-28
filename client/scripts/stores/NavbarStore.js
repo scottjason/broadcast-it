@@ -39,14 +39,14 @@ module.exports = Reflux.createStore({
         { e: $(shareWithUrl), p: { translateX: '400px' }, o: { duration: 150, sequenceQueue: false } },
         { e: $(endBroadcast), p: { translateX: '400px' }, o: { duration: 150, sequenceQueue: false } },
         { e: $(slider), p: { translateX: '-410px' }, o: { duration: 225, sequenceQueue: true } },        
-        { e: $(cross), p: { translateX: '-298px' }, o: { duration: 225, sequenceQueue: false } },        
+        { e: $(cross), p: { translateX: '-158px' }, o: { duration: 225, sequenceQueue: false } },        
         { e: $(cross), p: { rotateZ: 720 }, o: { duration: 400, sequenceQueue: true } }
       ];
       
     } else {
       var sequence = [
         { e: $(cross), p: { rotateZ: -720 }, o: { duration: 400 } },
-        { e: $(cross), p: { translateX: '298px' }, o: { duration: 225, sequenceQueue: true } },        
+        { e: $(cross), p: { translateX: '158px' }, o: { duration: 225, sequenceQueue: true } },        
         { e: $(slider), p: { translateX: '410px' }, o: { duration: 225, sequenceQueue: false } },        
         { e: $(endBroadcast), p: { translateX: '0' }, o: { duration: 150, sequenceQueue: true } },
         { e: $(shareWithUrl), p: { translateX: '0' }, o: { duration: 150, sequenceQueue: false } },

@@ -45,10 +45,11 @@ var styles = StyleSheet.create({
     color: 'white',
     fontSize: 36,
     fontWeight: 400,
-    marginTop: 175
+    marginTop: 175,
+    marginBottom: 0
   },
-  subTitle: {
-    color: 'white',
+  subtitle: {
+    color: 'rgb(132, 138, 255)',
     fontSize: 18,
     fontWeight: 300
   }
