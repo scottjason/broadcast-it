@@ -1,10 +1,10 @@
 'use strict';
 
-var React = window.React = require('react');
 var Reflux = require('reflux');
 var StyleSheet = require('react-style');
 var Navigation = require('react-router').Navigation;
 var Navbar = require('./Navbar.js');
+var Disabled = require('./Disabled.js');
 var ConnectStore = require('../stores/ConnectStore.js');
 var SessionStore = require('../stores/SessionStore.js');
 var actions = require('../actions/');
@@ -34,7 +34,8 @@ var Session = React.createClass({
   render: function() {
     return (
       <div>
-        <Navbar/>
+        <Disabled />
+        <Navbar />
         <div styles={styles.exit} id='exit'>
           <div styles={styles.constainer}>
             <p styles={styles.exitCopy}>BROADCAST ENDED</p>
