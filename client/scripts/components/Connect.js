@@ -1,6 +1,5 @@
 'use strict';
 
-var React = window.React = require('react');
 var Reflux = require('reflux');
 var StyleSheet = require('react-style');
 var ConnectStore = require('../stores/ConnectStore.js');

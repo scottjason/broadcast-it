@@ -10,7 +10,7 @@ var bitly = new Bitly(process.env.BITLY_KEY || config.bitly);
 var opentok = new OpenTok(process.env.opentokKey || env.openTok.key, process.env.opentokSecret || env.openTok.secret);
 
 exports.renderIndex = function(req, res, next) {
-  res.sendFile('./dist/index.html');
+  res.sendFile('./client/dist/index.html');
 };
 
 exports.redirect = function(req, res, next) {
@@ -18,7 +18,6 @@ exports.redirect = function(req, res, next) {
 };
 
 exports.expireSession = function(req, res, next) {
-  console.log("expiring session");
   client.del(req.params.sessionId, redis.print);  
   res.status(200).send();
 };
