@@ -26,9 +26,6 @@ module.exports = Reflux.createStore({
       },
       connectionDestroyed: function(event) {
         actions.removeViewer();        
-      },
-      sessionDisconnected: function sessionDisconnectHandler(event) {
-        console.log('Disconnected from the session: ', event.reason);
       }
     });
   },
