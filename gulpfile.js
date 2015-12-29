@@ -150,8 +150,8 @@ gulp.task('extras', function() {
     .pipe($.size());
 });
 
-// Watch / Server
-gulp.task('server', ['html', 'jsLib', 'fonts', 'bundle', 'nodemon'], function() {
+// Default Watch / Server
+gulp.task('default', ['html', 'jsLib', 'fonts', 'bundle', 'nodemon'], function() {
   gulp.watch('client/scripts/**/*.json', ['json']);
   gulp.watch('client/*.html', ['html']);
   gulp.watch(['client/styles/**/*.css'], ['styles', 'scripts']);
@@ -173,13 +173,13 @@ gulp.task('nodemon', function(cb) {
   });
 });
 
-// Build
-gulp.task('build', ['html', 'buildBundle', 'images', 'fonts', 'extras'], function() {
+// Build Task
+gulp.task('build', ['clean', 'buildAll']);
+
+gulp.task('buildAll', ['html', 'buildBundle', 'images', 'fonts', 'extras'], function() {
   gulp.src('client/dist/scripts/client.js')
     .pipe($.uglify())
     .pipe($.stripDebug())
     .pipe(gulp.dest('client/dist/scripts'));
 });
 
-// Default task
-gulp.task('default', ['clean', 'build']);
