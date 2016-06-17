@@ -1,5 +1,5 @@
 <!doctype html>
-<html >
+<html>
 
 <head>
   <meta charset="utf-8">
@@ -11,31 +11,32 @@
 </head>
 
 <body>
-<script>
+  <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId: '187072508310833',
+      appId: '1722402877999140',
       xfbml: true,
-      version: 'v2.5'
+      version: 'v2.6'
     });
   };
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-  
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+  </script>
   <div id="app"></div>
-
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/velocity/velocity.min.js"></script>
-  <script src="bower_components/velocity/velocity.ui.min.js"></script>    
+  <script src="bower_components/velocity/velocity.ui.min.js"></script>
   <script src='//static.opentok.com/v2/js/opentok.min.js'></script>
   <script src='lib/scripts/opentok-layout.min.js'></script>
-  <script src="scripts/app.js"></script>  
+  <script src="scripts/app.js"></script>
 </body>
 
 </html>
