@@ -9,7 +9,7 @@ var Session = require('./components/Session.js');
 
 window.debug = false;
 
-ReactDOM.render((
+React.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={Connect}></Route>
     <Route path="/publisher/:sessionId" component={Session} />

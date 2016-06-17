@@ -157,6 +157,7 @@ var styles = StyleSheet.create({
   shareToFacebook: {
     position: 'relative',
     display: 'inline-block',
+    visibility: 'hidden',    
     float: 'right',
     marginRight: 20,
     color: '#848AFF',
